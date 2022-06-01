@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_dropdown_Menu"
+        android:icon="@drawable/icons_account_white_outline"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/action_menu_1"
+                android:title="@string/actionbar_menu_1" />
+            <item android:id="@+id/action_menu_2"
+                android:title="@string/actionbar_menu_2" />
+            <item android:id="@+id/action_menu_3"
+                android:title="@string/actionbar_menu_3" />
+            <item android:id="@+id/action_menu_4"
+                android:title="@string/actionbar_menu_4" />
+        </menu>
+    </item>
+</menu>
