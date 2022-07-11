@@ -18,7 +18,8 @@ import retrofit2.http.POST;
 
 public class RetrofitClient {
     //    private static final String Base_URL = "http://localhost:5000/";
-    private static final String Base_URL = "http://192.168.31.18:5000/";
+//    private static final String Base_URL = "http://192.168.31.18:5000/";
+    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
 
     public static Retrofit getInstance() {
         Gson gson = new GsonBuilder().setLenient().create();

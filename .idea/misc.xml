@@ -3,10 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_main.xml" value="0.38645833333333335" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_items.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_outfits.xml" value="0.1953125" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/faashionitem_cardview_layout.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/fashionitem_cardview_layout.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/main_tab_list_layout_1.xml" value="0.38645833333333335" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/main_tab_list_layout_2.xml" value="0.38645833333333335" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/main_tab_list_layout_3.xml" value="0.38645833333333335" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/mainmenu_cardview_layout.xml" value="0.19427083333333334" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/outfits_cardview_layout.xml" value="0.1953125" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/menu/actionbar_login.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/menu/actionbar_logout.xml" value="0.20104166666666667" />
       </map>

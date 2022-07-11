@@ -16,6 +16,7 @@ public class BasementActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -35,15 +36,12 @@ public class BasementActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_menu_1:
+            case R.id.addItemMenu:
+                UseLog.v("addItemMenu");
                 return true;
-            case R.id.action_menu_2:
+            case R.id.settingMenu:
+                UseLog.v("settingMenu");
                 return true;
-            case R.id.action_menu_3:
-                return true;
-            case R.id.action_menu_4:
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }

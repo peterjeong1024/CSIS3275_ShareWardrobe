@@ -2,13 +2,13 @@
     <string name="app_name">ShareWardrobeApp</string>
 
     <!-- main activity screen text -->
-    <string name="tab_menu_1">Tab 1</string>
-    <string name="tab_menu_2">Tab 2</string>
-    <string name="tab_menu_3">Tab 3</string>
+    <string name="actionbar_addItemMenu">Add Item</string>
+    <string name="actionbar_settingMenu">Setting</string>
 
-    <string name="actionbar_menu_1">Menu 1</string>
-    <string name="actionbar_menu_2">Menu 2</string>
-    <string name="actionbar_menu_3">Menu 3</string>
-    <string name="actionbar_menu_4">Menu 4</string>
+    <string name="items_text">Items</string>
+    <string name="outfits_text">Outfits</string>
+    <string name="wardrobe_stats_text">Wardrobe Stats</string>
+    <string name="planner_text">Planner</string>
+    <string name="consultations_text">Consultations</string>
 
 </resources>

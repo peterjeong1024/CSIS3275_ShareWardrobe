@@ -1,27 +1,82 @@
 package com.example.sharewardrobeapp.objects;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
+import com.example.sharewardrobeapp.util.UseLog;
+
+import java.util.Date;
+
 public class FashionItem {
-    private String ItemFabric;
-
-    private String ItemColor;
-
-    private String ItemDesc;
-
-    private String ItemSeason;
-
-    private String __v;
-
-    private String ItemPrice;
-
-    private String ItemLocation;
-
-    private String ItemName;
 
     private String _id;
 
-    private String ItemBrand;
+    private String ItemName;
+
+    private String ItemOwner;
+
+    private String ItemDesc;
+
+    private String ItemCategory;
+
+    private String ItemColor;
+
+    private String ItemFabric;
+
+    private double ItemPrice;
 
     private String ItemSize;
+
+    private String ItemSeason;
+
+    private String ItemBrand;
+
+    private String ItemImg;
+
+    public String getItemImg() {
+        return ItemImg;
+    }
+
+    public void setItemImg(String itemImg) {
+        ItemImg = itemImg;
+    }
+
+    private String ItemLocation;
+
+    private Date ItemBuyDate;
+
+    private int ItemWornCount;
+
+    private String __v;
+
+    public String getItemCategory() {
+        return ItemCategory;
+    }
+
+    public void setItemCategory(String itemCategory) {
+        ItemCategory = itemCategory;
+    }
+
+    public void setItemPrice(double itemPrice) {
+        ItemPrice = itemPrice;
+    }
+
+    public Date getItemBuyDate() {
+        return ItemBuyDate;
+    }
+
+    public void setItemBuyDate(Date itemBuyDate) {
+        ItemBuyDate = itemBuyDate;
+    }
+
+    public int getItemWornCount() {
+        return ItemWornCount;
+    }
+
+    public void setItemWornCount(int itemWornCount) {
+        ItemWornCount = itemWornCount;
+    }
 
     public String getItemFabric() {
         return ItemFabric;
@@ -63,11 +118,11 @@ public class FashionItem {
         this.__v = __v;
     }
 
-    public String getItemPrice() {
+    public double getItemPrice() {
         return ItemPrice;
     }
 
-    public void setItemPrice(String ItemPrice) {
+    public void setItemPrice(int ItemPrice) {
         this.ItemPrice = ItemPrice;
     }
 
@@ -109,6 +164,22 @@ public class FashionItem {
 
     public void setItemSize(String ItemSize) {
         this.ItemSize = ItemSize;
+    }
+
+    public String getItemOwner() {
+        return ItemOwner;
+    }
+
+    public void setItemOwner(String itemOwner) {
+        ItemOwner = itemOwner;
+    }
+
+    public Bitmap getItemImgBitmap() {
+        if (ItemImg == null) {
+            return null;
+        }
+        byte[] bytes = Base64.decode(ItemImg, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     @Override
