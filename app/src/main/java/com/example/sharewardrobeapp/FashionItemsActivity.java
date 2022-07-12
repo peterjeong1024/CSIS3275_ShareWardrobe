@@ -1,27 +1,26 @@
 package com.example.sharewardrobeapp;
 
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharewardrobeapp.interfaces.RetrofitClient;
-import com.example.sharewardrobeapp.items.ItemsRecyclerAdapter;
+import com.example.sharewardrobeapp.fashionitems.FashionItemsViewModel;
+import com.example.sharewardrobeapp.fashionitems.FashionItemsRecyclerAdapter;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class ItemsActivity extends BasementActivity implements ItemsRecyclerAdapter.OnItemClick {
+public class FashionItemsActivity extends BasementActivity implements FashionItemsRecyclerAdapter.OnItemClick {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private ItemsRecyclerAdapter adapter;
+    private FashionItemsRecyclerAdapter adapter;
+    private FashionItemsViewModel mViewModel;
 
     private ArrayList<FashionItem> mFashionItemList;
 
@@ -31,28 +30,28 @@ public class ItemsActivity extends BasementActivity implements ItemsRecyclerAdap
         setContentView(R.layout.activity_items);
 
         recyclerView = findViewById(R.id.items_recycler_view);
+        mViewModel = new ViewModelProvider(this).get(FashionItemsViewModel.class);
 
-        // call retrofit interface to get fashion item list
-        Call<ArrayList<FashionItem>> getData = RetrofitClient.getApi().getFashionItemList();
-        getData.enqueue(new Callback<ArrayList<FashionItem>>() {
+        mViewModel.getIsLoading().observe(this, new Observer<Boolean>() {
             @Override
-            public void onResponse(Call<ArrayList<FashionItem>> call, Response<ArrayList<FashionItem>> response) {
-                mFashionItemList = response.body();
-                drawItemList(mFashionItemList);
+            public void onChanged(Boolean isLoading) {
+                Toast.makeText(getApplicationContext(), "Loading user data", Toast.LENGTH_SHORT).show();
             }
+        });
 
+        mViewModel.getFashionItemListLiveData().observe(this, new Observer<ArrayList<FashionItem>>() {
             @Override
-            public void onFailure(Call<ArrayList<FashionItem>> call, Throwable t) {
-                t.printStackTrace();
+            public void onChanged(ArrayList<FashionItem> fashionItems) {
+                mViewModel.getIsLoading().postValue(false);
+                drawItemList(fashionItems);
             }
         });
     }
 
-
     private void drawItemList(ArrayList<FashionItem> fashionItemList) {
         layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ItemsRecyclerAdapter(fashionItemList);
+        adapter = new FashionItemsRecyclerAdapter(fashionItemList);
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
     }

@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharewardrobeapp.R;
-import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
+import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
 

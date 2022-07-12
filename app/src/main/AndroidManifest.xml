@@ -33,7 +33,7 @@
             android:exported="false"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".ItemsActivity"
+            android:name=".FashionItemsActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"/>
         <activity

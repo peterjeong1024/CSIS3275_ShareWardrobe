@@ -17,6 +17,29 @@ public class BasementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        UseLog.d("Activity Name : " + getLocalClassName());
+
+        switch (getLocalClassName()) {
+            case "FashionItemsActivity":
+                setTitle(getResources().getString(R.string.items_text));
+                break;
+            case "OutfitsActivity" :
+                setTitle(getResources().getString(R.string.outfits_text));
+                break;
+            case "StatsActivity" :
+                setTitle(getResources().getString(R.string.wardrobe_stats_text));
+                break;
+            case "PlannerActivity" :
+                setTitle(getResources().getString(R.string.planner_text));
+                break;
+            case "ConsultActivity" :
+                setTitle(getResources().getString(R.string.consultations_text));
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

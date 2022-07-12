@@ -1,9 +1,8 @@
-package com.example.sharewardrobeapp.items;
+package com.example.sharewardrobeapp.fashionitems;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +14,12 @@ import com.example.sharewardrobeapp.objects.FashionItem;
 
 import java.util.ArrayList;
 
-public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
+public class FashionItemsRecyclerAdapter extends RecyclerView.Adapter<FashionItemsRecyclerAdapter.ViewHolder> {
 
     private OnItemClick mItemClickListener;
     private ArrayList<FashionItem> mFashionItemList;
 
-    public ItemsRecyclerAdapter(ArrayList<FashionItem> fashionItemList) {
+    public FashionItemsRecyclerAdapter(ArrayList<FashionItem> fashionItemList) {
         mFashionItemList = fashionItemList;
     }
 

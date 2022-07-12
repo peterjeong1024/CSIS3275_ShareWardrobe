@@ -34,11 +34,17 @@ public class RetrofitClient {
         @GET("/FashionItem/")
         Call<ArrayList<FashionItem>> getFashionItemList();
 
+        @GET("/FashionItem/:id")
+        Call<FashionItem> getFashionItem(@Body int id);
+
         @POST("/FashionItem/add/")
         Call<String> addFashionItem(@Body FashionItem fi);
 
         @GET("/OutfitItem/")
         Call<ArrayList<OutfitItem>> getOutfitItemList();
+
+        @GET("/OutfitItem/:id")
+        Call<OutfitItem> getOutfitItem(@Body int id);
 
         @POST("/OutfitItem/add/")
         Call<String> addOutfitItem(@Body OutfitItem oi);
