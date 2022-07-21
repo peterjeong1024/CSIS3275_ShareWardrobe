@@ -14,11 +14,10 @@ public class FashionItemsViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private LiveData<ArrayList<FashionItem>> FashionItemListLiveData;
+    private LiveData<FashionItem> FashionItemLiveData;
 
     public FashionItemsViewModel() {
         super();
-        isLoading.setValue(true);
-        FashionItemListLiveData = repository.getFashionItemList();
     }
 
     @Override
@@ -30,7 +29,23 @@ public class FashionItemsViewModel extends ViewModel {
         return isLoading;
     }
 
-    public LiveData<ArrayList<FashionItem>> getFashionItemListLiveData() {
+    public LiveData<ArrayList<FashionItem>> getFashionItemListLiveData(String userId) {
+        isLoading.setValue(true);
+        FashionItemListLiveData = repository.getFashionItemList(userId);
         return FashionItemListLiveData;
+    }
+
+    public LiveData<FashionItem> getFashionItemData(String id) {
+        isLoading.setValue(true);
+        FashionItemLiveData = repository.getFashionItem(id);
+        return FashionItemLiveData;
+    }
+
+    public void addFashionItem(FashionItem fashionItem) {
+        repository.addFashionItem(fashionItem);
+    }
+
+    public void updateFashionItem(FashionItem fashionItem) {
+        repository.updateFashionItem(fashionItem);
     }
 }

@@ -1,14 +1,57 @@
 <resources>
-    <string name="app_name">ShareWardrobeApp</string>
+    <string name="app_name">Styleology</string>
+
+    <!-- common usage text -->
+    <string name="common_text_accept">Accept</string>
+    <string name="common_text_confirm">Confirm</string>
+    <string name="common_text_cancel">Cancel</string>
+    <string name="common_text_ok">Ok</string>
+
+    <!-- Actionbar screen text -->
+    <string name="log_out">Log out</string>
 
     <!-- main activity screen text -->
     <string name="actionbar_addItemMenu">Add Item</string>
     <string name="actionbar_settingMenu">Setting</string>
+    <string name="dialog_end_app_title">Finish the app</string>
+    <string name="dialog_end_app_description">Do you want to finish the app?</string>
+    <string name="dialog_end_app_ok">OK</string>
+    <string name="dialog_end_app_cancel">Cancel</string>
 
     <string name="items_text">Items</string>
     <string name="outfits_text">Outfits</string>
     <string name="wardrobe_stats_text">Wardrobe Stats</string>
     <string name="planner_text">Planner</string>
     <string name="consultations_text">Consultations</string>
+    <string name="sign_in_text">Sign In</string>
+
+    <!-- FashionItem activities text -->
+    <string name="input_item_name">Input Item Name</string>
+    <string name="input_item_desc">Input Item Description</string>
+    <string name="input_item_category">Input Item Category</string>
+    <string name="input_item_color">Input Item Color</string>
+    <string name="input_item_fabric">Input Item Fabric</string>
+    <string name="input_item_price">Input Item Price</string>
+    <string name="input_item_size">Input Item size</string>
+    <string name="input_item_season">Input Item Season</string>
+    <string name="input_item_brand">Input Item Brand</string>
+    <string name="input_item_Location">Input Item Location</string>
+
+
+    <!-- toast message text -->
+    <string name="toast_cannot_find_id">Cannot find your ID. Try it again.</string>
+    <string name="toast_succeed_to_login">Succeed to login</string>
+    <string name="toast_clicks_left">clicks left</string>
+    <string name="toast_succeed_to_create_demo_data">Succeed to create Demo data</string>
+    <string name="toast_input_data_is_wrong">Input data is wrong. Please input correct data.</string>
+    <string name="toast_succeed_to_update_your_account">Succeed to update your account.</string>
+    <string name="toast_id_already_used">Input ID is already used. Please input another ID.</string>
+    <string name="toast_this_id_can_use">This ID can use.</string>
+    <string name="toast_succeed_to_create_new_account">Succeed to create new account. Please login with new account.</string>
+    <string name="toast_succeed_to_add_new_book">Succeed to add new book.</string>
+    <string name="toast_succeed_to_update_your_book_info">Succeed to update your book information.</string>
+    <string name="toast_failed_to_update_your_book_info">Failed to update your book information.</string>
+    <string name="toast_succeed_to_borrow_this_book">Succeed to borrow this book.</string>
+    <string name="toast_succeed_to_take_this_book">Succeed to take this book.</string>
 
 </resources>

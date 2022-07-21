@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_add_fashion_item.xml" value="0.5" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_fashion_item_detail.xml" value="0.19270833333333334" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_home_page.xml" value="0.2953125" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_items.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_outfits.xml" value="0.1953125" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_sign_in.xml" value="0.19270833333333334" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_user_info.xml" value="0.2921875" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/faashionitem_cardview_layout.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/fashionitem_cardview_layout.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/main_tab_list_layout_1.xml" value="0.38645833333333335" />

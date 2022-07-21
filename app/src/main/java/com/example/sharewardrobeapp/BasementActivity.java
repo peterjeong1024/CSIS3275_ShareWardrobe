@@ -9,15 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sharewardrobeapp.objects.UserAccount;
 import com.example.sharewardrobeapp.util.UseLog;
 
 public class BasementActivity extends AppCompatActivity {
 
+    private UserAccount mUserAccount;
+    private boolean isLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUserAccount = new UserAccount();
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        isLogin = getUserAccount().isLogin(getApplicationContext());
 
         UseLog.d("Activity Name : " + getLocalClassName());
 
@@ -36,6 +41,9 @@ public class BasementActivity extends AppCompatActivity {
                 break;
             case "ConsultActivity" :
                 setTitle(getResources().getString(R.string.consultations_text));
+                break;
+            case "SignInActivity" :
+                setTitle(getResources().getString(R.string.sign_in_text));
                 break;
             default:
                 break;
@@ -58,15 +66,30 @@ public class BasementActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        UseLog.v("item.getItemId() : " + item.getTitle());
         switch (item.getItemId()) {
+            case android.R.id.home:
+                UseLog.v("click back button in actionbar");
+                finish();
+                return true;
             case R.id.addItemMenu:
                 UseLog.v("addItemMenu");
                 return true;
-            case R.id.settingMenu:
-                UseLog.v("settingMenu");
+            case R.id.action_log_out:
+                UseLog.v("Log out");
+                getUserAccount().tryLogout(getApplicationContext());
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public UserAccount getUserAccount() {
+        return mUserAccount;
+    }
+
+    public void setUserAccount(UserAccount mUserAccount) {
+        this.mUserAccount = mUserAccount;
     }
 }

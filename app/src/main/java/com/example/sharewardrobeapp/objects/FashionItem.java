@@ -2,19 +2,21 @@ package com.example.sharewardrobeapp.objects;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Base64;
 
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.Date;
 
-public class FashionItem {
+public class FashionItem implements Parcelable {
 
     private String _id;
 
-    private String ItemName;
+    private String ItemName = "";
 
-    private String ItemOwner;
+    private String ItemOwner = "";
 
     private String ItemDesc;
 
@@ -24,7 +26,7 @@ public class FashionItem {
 
     private String ItemFabric;
 
-    private double ItemPrice;
+    private double ItemPrice = 0;
 
     private String ItemSize;
 
@@ -34,6 +36,51 @@ public class FashionItem {
 
     private String ItemImg;
 
+    private String ItemLocation = "";
+
+    private Date ItemBuyDate;
+
+    private int ItemWornCount;
+
+    private String __v;
+
+    public FashionItem() {
+        ItemName = "None";
+        ItemOwner = "None";
+        ItemPrice = 0;
+        ItemLocation = "None";
+    }
+
+    protected FashionItem(Parcel in) {
+        _id = in.readString();
+        ItemName = in.readString();
+        ItemOwner = in.readString();
+        ItemDesc = in.readString();
+        ItemCategory = in.readString();
+        ItemColor = in.readString();
+        ItemFabric = in.readString();
+        ItemPrice = in.readDouble();
+        ItemSize = in.readString();
+        ItemSeason = in.readString();
+        ItemBrand = in.readString();
+        ItemImg = in.readString();
+        ItemLocation = in.readString();
+        ItemWornCount = in.readInt();
+        __v = in.readString();
+    }
+
+    public static final Creator<FashionItem> CREATOR = new Creator<FashionItem>() {
+        @Override
+        public FashionItem createFromParcel(Parcel in) {
+            return new FashionItem(in);
+        }
+
+        @Override
+        public FashionItem[] newArray(int size) {
+            return new FashionItem[size];
+        }
+    };
+
     public String getItemImg() {
         return ItemImg;
     }
@@ -41,14 +88,6 @@ public class FashionItem {
     public void setItemImg(String itemImg) {
         ItemImg = itemImg;
     }
-
-    private String ItemLocation;
-
-    private Date ItemBuyDate;
-
-    private int ItemWornCount;
-
-    private String __v;
 
     public String getItemCategory() {
         return ItemCategory;
@@ -185,5 +224,29 @@ public class FashionItem {
     @Override
     public String toString() {
         return "FashionItem [ItemFabric = " + ItemFabric + ", ItemColor = " + ItemColor + ", ItemDesc = " + ItemDesc + ", ItemSeason = " + ItemSeason + ", __v = " + __v + ", ItemPrice = " + ItemPrice + ", ItemLocation = " + ItemLocation + ", ItemName = " + ItemName + ", _id = " + _id + ", ItemBrand = " + ItemBrand + ", ItemSize = " + ItemSize + "]";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(_id);
+        parcel.writeString(ItemName);
+        parcel.writeString(ItemOwner);
+        parcel.writeString(ItemDesc);
+        parcel.writeString(ItemCategory);
+        parcel.writeString(ItemColor);
+        parcel.writeString(ItemFabric);
+        parcel.writeDouble(ItemPrice);
+        parcel.writeString(ItemSize);
+        parcel.writeString(ItemSeason);
+        parcel.writeString(ItemBrand);
+        parcel.writeString(ItemImg);
+        parcel.writeString(ItemLocation);
+        parcel.writeInt(ItemWornCount);
+        parcel.writeString(__v);
     }
 }

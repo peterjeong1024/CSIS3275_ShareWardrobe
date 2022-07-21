@@ -5,9 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
+import com.example.sharewardrobeapp.objects.UserAccount;
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +27,8 @@ public class DataRepository {
     private MutableLiveData<ArrayList<OutfitItem>> OutfitListLiveData = new MutableLiveData<>();
     private MutableLiveData<OutfitItem> OutfitLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<UserAccount> UALiveData = new MutableLiveData<>();
+
     public static DataRepository getInstance() {
         return ourInstance;
     }
@@ -31,12 +37,11 @@ public class DataRepository {
         api = RetrofitClient.getApi();
     }
 
-
     /*
      -- /FashionItem/ API list
      */
-    public LiveData<ArrayList<FashionItem>> getFashionItemList() {
-        api.getFashionItemList().enqueue(new Callback<ArrayList<FashionItem>>() {
+    public LiveData<ArrayList<FashionItem>> getFashionItemList(String userID) {
+        api.getFashionItemList(userID).enqueue(new Callback<ArrayList<FashionItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FashionItem>> call, Response<ArrayList<FashionItem>> response) {
                 ItemListLiveData.setValue(response.body());
@@ -51,7 +56,7 @@ public class DataRepository {
         return ItemListLiveData;
     }
 
-    public LiveData<FashionItem> getFashionItem(int id) {
+    public LiveData<FashionItem> getFashionItem(String id) {
         api.getFashionItem(id).enqueue(new Callback<FashionItem>() {
             @Override
             public void onResponse(Call<FashionItem> call, Response<FashionItem> response) {
@@ -67,12 +72,43 @@ public class DataRepository {
         return ItemLiveData;
     }
 
+    public void addFashionItem(FashionItem fashionItem) {
+        api.addFashionItem(fashionItem).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + call);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the FashionItem to server");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void updateFashionItem(FashionItem fashionItem) {
+        api.updateFashionItem(fashionItem.get_id(), fashionItem).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + call);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the FashionItem to server");
+                t.printStackTrace();
+            }
+        });
+    }
+
+
     /*
      -- /OutfitItem/ API list
      */
 
-    public LiveData<ArrayList<OutfitItem>> getOutfitList() {
-        api.getOutfitItemList().enqueue(new Callback<ArrayList<OutfitItem>>() {
+    public LiveData<ArrayList<OutfitItem>> getOutfitList(String userID) {
+        api.getOutfitItemList(userID).enqueue(new Callback<ArrayList<OutfitItem>>() {
             @Override
             public void onResponse(Call<ArrayList<OutfitItem>> call, Response<ArrayList<OutfitItem>> response) {
                 OutfitListLiveData.setValue(response.body());
@@ -87,7 +123,7 @@ public class DataRepository {
         return OutfitListLiveData;
     }
 
-    public LiveData<OutfitItem> getOutfitItem(int id) {
+    public LiveData<OutfitItem> getOutfitItem(String id) {
         api.getOutfitItem(id).enqueue(new Callback<OutfitItem>() {
             @Override
             public void onResponse(Call<OutfitItem> call, Response<OutfitItem> response) {
@@ -101,5 +137,25 @@ public class DataRepository {
             }
         });
         return OutfitLiveData;
+    }
+
+
+    /*
+         -- /UserAccount/ API list
+         */
+    public LiveData<UserAccount> checkUserAccount(String id, String pw) {
+        api.checkUserAccount(id, pw).enqueue(new Callback<UserAccount>() {
+            @Override
+            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                UALiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UserAccount> call, Throwable t) {
+                UseLog.d("Fail to get the UserAccount from server");
+                t.printStackTrace();
+            }
+        });
+        return UALiveData;
     }
 }

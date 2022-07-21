@@ -1,6 +1,9 @@
 package com.example.sharewardrobeapp.objects;
 
-public class UserPlanData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UserPlanData implements Parcelable {
     private String _id;
 
     private String FItemsSerialize;
@@ -8,6 +11,38 @@ public class UserPlanData {
     private String UserID;
 
     private String OutFitsSerialize;
+
+    protected UserPlanData(Parcel in) {
+        _id = in.readString();
+        FItemsSerialize = in.readString();
+        UserID = in.readString();
+        OutFitsSerialize = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeString(FItemsSerialize);
+        dest.writeString(UserID);
+        dest.writeString(OutFitsSerialize);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<UserPlanData> CREATOR = new Creator<UserPlanData>() {
+        @Override
+        public UserPlanData createFromParcel(Parcel in) {
+            return new UserPlanData(in);
+        }
+
+        @Override
+        public UserPlanData[] newArray(int size) {
+            return new UserPlanData[size];
+        }
+    };
 
     public String get_id() {
         return _id;

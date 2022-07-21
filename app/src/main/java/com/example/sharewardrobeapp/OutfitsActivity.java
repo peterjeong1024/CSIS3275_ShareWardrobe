@@ -39,7 +39,9 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
             }
         });
 
-        mViewModel.getOutfitItemListLiveData().observe(this, new Observer<ArrayList<OutfitItem>>() {
+        UseLog.d(getUserAccount().getUserID());
+
+        mViewModel.getOutfitItemListLiveData(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<OutfitItem>>() {
             @Override
             public void onChanged(ArrayList<OutfitItem> outfitItems) {
                 mViewModel.getIsLoading().postValue(false);

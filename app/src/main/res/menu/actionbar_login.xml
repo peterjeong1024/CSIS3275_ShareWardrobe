@@ -12,5 +12,9 @@
         android:icon="@drawable/icons_account_white_outline"
         android:title="@string/actionbar_settingMenu"
         app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/action_log_out"
+                android:title="@string/log_out" />
+        </menu>
     </item>
 </menu>
