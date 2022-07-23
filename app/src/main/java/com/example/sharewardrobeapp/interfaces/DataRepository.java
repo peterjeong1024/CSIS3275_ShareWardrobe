@@ -76,7 +76,7 @@ public class DataRepository {
         api.addFashionItem(fashionItem).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                UseLog.d("Succeed to send and reply : " + call);
+                UseLog.d("Succeed to send and reply : " + response.body());
             }
 
             @Override
@@ -91,7 +91,7 @@ public class DataRepository {
         api.updateFashionItem(fashionItem.get_id(), fashionItem).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                UseLog.d("Succeed to send and reply : " + call);
+                UseLog.d("Succeed to send and reply : " + response.body());
             }
 
             @Override
@@ -101,7 +101,6 @@ public class DataRepository {
             }
         });
     }
-
 
     /*
      -- /OutfitItem/ API list
@@ -137,6 +136,36 @@ public class DataRepository {
             }
         });
         return OutfitLiveData;
+    }
+
+    public void addOutfitItem(OutfitItem outfitItem) {
+        api.addOutfitItem(outfitItem).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the OutfitItem to server");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void updateOutfitItem(OutfitItem outfitItem) {
+        api.updateOutfitItem(outfitItem.get_id(), outfitItem).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the outfitItem to server");
+                t.printStackTrace();
+            }
+        });
     }
 
 

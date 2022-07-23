@@ -32,6 +32,10 @@
             android:exported="false"
             android:parentActivityName=".FashionItemsActivity" />
         <activity
+            android:name=".outfits.OutfitDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".OutfitsActivity" />
+        <activity
             android:name=".signin.UserInfoActivity"
             android:exported="false"
             android:parentActivityName=".SignInActivity" />

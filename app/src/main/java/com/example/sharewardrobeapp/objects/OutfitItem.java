@@ -17,6 +17,9 @@ public class OutfitItem implements Parcelable {
 
     private String OutfitCateName;
 
+    public OutfitItem() {
+    }
+
     protected OutfitItem(Parcel in) {
         _id = in.readString();
         OutfitImg = in.readString();

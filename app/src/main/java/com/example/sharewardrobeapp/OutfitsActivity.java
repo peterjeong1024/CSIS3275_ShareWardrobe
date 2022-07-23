@@ -1,16 +1,22 @@
 package com.example.sharewardrobeapp;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.sharewardrobeapp.fashionitems.FashionItemDetailActivity;
 import com.example.sharewardrobeapp.objects.OutfitItem;
+import com.example.sharewardrobeapp.outfits.OutfitDetailActivity;
 import com.example.sharewardrobeapp.outfits.OutfitsRecyclerAdapter;
 import com.example.sharewardrobeapp.outfits.OutfitsViewModel;
+import com.example.sharewardrobeapp.util.ConstantValue;
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
@@ -32,19 +38,10 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
         recyclerView = findViewById(R.id.outfits_recycler_view);
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
 
-        mViewModel.getIsLoading().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isLoading) {
-                Toast.makeText(getApplicationContext(), "Loading user data", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        UseLog.d(getUserAccount().getUserID());
-
         mViewModel.getOutfitItemListLiveData(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<OutfitItem>>() {
             @Override
             public void onChanged(ArrayList<OutfitItem> outfitItems) {
-                mViewModel.getIsLoading().postValue(false);
+                mOutfitItemList = outfitItems;
                 drawItemList(outfitItems);
             }
         });
@@ -60,6 +57,22 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
 
     @Override
     public void onClickItem(int position) {
-        UseLog.d("click item : " + mOutfitItemList.get(position).getOutfitCateName());
+        Intent i = new Intent(this, OutfitDetailActivity.class);
+        i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mOutfitItemList.get(position).get_id());
+        startActivity(i);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addItemMenu:
+                startActivity(new Intent(this, OutfitDetailActivity.class));
+                return true;
+            case R.id.settingMenu:
+                UseLog.v("settingMenu");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

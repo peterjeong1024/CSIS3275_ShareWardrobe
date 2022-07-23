@@ -11,6 +11,7 @@ public class ConstantValue {
 
     // intent putExtra value
     public static final String FASHION_ITEM_CLICK_ID = "fashion_item";
+    public static final String OUTFIT_ITEM_CLICK_ID = "fashion_item";
     public static final String SIGNINTYPE = "SIGNINTYPE";
     public static final String FULLNAME = "FULLNAME";
 
