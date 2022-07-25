@@ -1,5 +1,6 @@
 package com.example.sharewardrobeapp.outfits;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.sharewardrobeapp.R;
+import com.example.sharewardrobeapp.interfaces.GlideApp;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.util.UseLog;
 
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 
 public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecyclerAdapter.ViewHolder> {
 
+    private Context mContext;
     private OnItemClick mItemClickListener;
     private ArrayList<OutfitItem> mOutfitsItemList;
 
@@ -31,6 +35,7 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.outfits_cardview_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
@@ -39,7 +44,7 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemTitle.setText(mOutfitsItemList.get(position).getOutfitCateName());
-        holder.itemImage.setImageBitmap(mOutfitsItemList.get(position).getOutfitImgBitmap());
+        GlideApp.with(mContext).load(mOutfitsItemList.get(position).getOutfitImgBitmap()).into(holder.itemImage);
     }
 
     @Override

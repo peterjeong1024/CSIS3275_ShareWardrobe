@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -22,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sharewardrobeapp.BasementActivity;
 import com.example.sharewardrobeapp.R;
-import com.example.sharewardrobeapp.interfaces.DataRepository;
+import com.example.sharewardrobeapp.interfaces.GlideApp;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.util.ConstantValue;
@@ -30,27 +31,30 @@ import com.example.sharewardrobeapp.util.UseLog;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 public class OutfitDetailActivity extends BasementActivity {
 
     private OutfitsViewModel mViewModel;
-    private DataRepository repository = DataRepository.getInstance();
-    private OutfitDetailItemListViewAdapter mOutfitDetailItemListViewAdapter;
+    private OutfitDetailItemListViewAdapter mCurrentItemListViewAdapter;
+    private OutfitDetailItemListViewAdapter mAddItemListViewAdapter;
 
     private ImageView mImageView;
     private Button mLoadPicture;
     private Button mTakePicture;
 
     private EditText mCategory;
-    private ListView mListview;
+    private ListView mCurrentItemListView;
+    private ListView mAddItemListView;
+    private Button mAddItems;
+    private Button mDeleteItems;
     private Button mConfirm;
 
     private boolean isEditMode = false;
     private OutfitItem mOutfitItem;
-    private ArrayList<FashionItem> mOutfitItemlist;
+    private ArrayList<FashionItem> mUserFashionItemList;
+    private ArrayList<FashionItem> mCurrentItemList;
+    private ArrayList<FashionItem> mAddItemList;
     private String selectedItemID;
 
     @Override
@@ -62,21 +66,27 @@ public class OutfitDetailActivity extends BasementActivity {
 
         mImageView = findViewById(R.id.of_imageview);
         mCategory = findViewById(R.id.of_category);
-        mListview = findViewById(R.id.of_listview);
+        mCurrentItemListView = findViewById(R.id.of_listview_current);
+        mAddItemListView = findViewById(R.id.of_listview_add);
 
         mConfirm = findViewById(R.id.of_confirm);
         mLoadPicture = findViewById(R.id.of_load_picture);
         mTakePicture = findViewById(R.id.of_take_picture);
+        mAddItems = findViewById(R.id.of_add_item);
+        mDeleteItems = findViewById(R.id.of_delete_item);
 
         mConfirm.setOnClickListener(mButtonCLickListener);
         mLoadPicture.setOnClickListener(mButtonCLickListener);
         mTakePicture.setOnClickListener(mButtonCLickListener);
+        mAddItems.setOnClickListener(mButtonCLickListener);
+        mDeleteItems.setOnClickListener(mButtonCLickListener);
+
+        mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
 
         // check it is Add mode or Edit mode
         if (getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID) != null) {
             isEditMode = true;
             selectedItemID = getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID);
-            mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
             mViewModel.getOutfitItemData(selectedItemID).observe(this, new Observer<OutfitItem>() {
                 @Override
                 public void onChanged(OutfitItem outfitItem) {
@@ -84,42 +94,51 @@ public class OutfitDetailActivity extends BasementActivity {
                     drawScreenData();
                 }
             });
+        } else {
+            drawScreenData();
         }
     }
 
     private void drawScreenData() {
         if (isEditMode) {
-            mCategory.setText(mOutfitItem.getOutfitCateName());
             if (!mOutfitItem.getOutfitImg().equals("")) {
-                mImageView.setImageBitmap(mOutfitItem.getOutfitImgBitmap());
+                GlideApp.with(getApplicationContext()).load(mOutfitItem.getOutfitImgBitmap()).into(mImageView);
                 mImageView.setVisibility(View.VISIBLE);
             }
-
-            mViewModel.getOutfitDetailItemListData(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<FashionItem>>() {
-                @Override
-                public void onChanged(ArrayList<FashionItem> fashionItems) {
-                    mOutfitItemlist = fashionItems;
-                    drawItemListData(fashionItems);
-                }
-            });
+            mCategory.setText(mOutfitItem.getOutfitCateName());
         }
+
+        mViewModel.getOutfitDetailItemListData(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<FashionItem>>() {
+            @Override
+            public void onChanged(ArrayList<FashionItem> fashionItems) {
+                mUserFashionItemList = fashionItems;
+                drawItemListData(fashionItems);
+            }
+        });
     }
 
     private void drawItemListData(ArrayList<FashionItem> fashionItems) {
-        ArrayList<FashionItem> displayList = new ArrayList<>();
-        String[] itemListArray = mOutfitItem.getFItemsSerialize().split("\\|");
-        ArrayList<String> list = new ArrayList<String>();
-        Collections.addAll(list, itemListArray);
+        mCurrentItemList = new ArrayList<>();
+        mAddItemList = new ArrayList<>();
+        if (mOutfitItem != null) {
+            ArrayList<String> list = new ArrayList<String>();
+            String[] itemListArray = mOutfitItem.getFItemsSerialize().split("\\|");
+            Collections.addAll(list, itemListArray);
 
-        for (FashionItem f : fashionItems) {
-            if (list.contains(f.get_id())) {
-                displayList.add(f);
+            for (FashionItem f : fashionItems) {
+                if (list.contains(f.get_id())) {
+                    mCurrentItemList.add(f);
+                } else {
+                    mAddItemList.add(f);
+                }
             }
+        } else {
+            mAddItemList.addAll(mUserFashionItemList);
         }
-        UseLog.d("" + displayList.size());
-        mOutfitDetailItemListViewAdapter = new OutfitDetailItemListViewAdapter(this, displayList);
-        mListview.setAdapter(mOutfitDetailItemListViewAdapter);
-        mOutfitDetailItemListViewAdapter.notifyDataSetChanged();
+        mCurrentItemListViewAdapter = new OutfitDetailItemListViewAdapter(this, mCurrentItemList);
+        mCurrentItemListView.setAdapter(mCurrentItemListViewAdapter);
+        mAddItemListViewAdapter = new OutfitDetailItemListViewAdapter(this, mAddItemList);
+        mAddItemListView.setAdapter(mAddItemListViewAdapter);
     }
 
     @Override
@@ -140,9 +159,24 @@ public class OutfitDetailActivity extends BasementActivity {
             int btnId = view.getId();
             switch (btnId) {
                 case R.id.of_confirm:
+                    if (mCategory.getText().length() == 0 || mImageView.getVisibility() == View.GONE) {
+                        Toast.makeText(getApplicationContext(), getText(R.string.insert_data_correctly), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (isEditMode) {
                         mOutfitItem.setOutfitOwnerID(getUserAccount().getUserID());
                         mOutfitItem.setOutfitCateName(mCategory.getText().toString());
+
+                        UseLog.d(mCurrentItemList.size() + " : mCurrentItemList.size()");
+                        StringBuilder itemListSerialized = new StringBuilder();
+                        for (FashionItem f : mCurrentItemList) {
+                            itemListSerialized.append(f.get_id());
+                            itemListSerialized.append("|");
+                        }
+                        itemListSerialized.deleteCharAt(itemListSerialized.lastIndexOf("|"));
+                        UseLog.d(itemListSerialized.toString());
+                        mOutfitItem.setFItemsSerialize(itemListSerialized.toString());
+
                         if (mImageView.getVisibility() == View.VISIBLE) {
                             BitmapDrawable drawable = (BitmapDrawable) mImageView.getDrawable();
                             Bitmap bitmap = drawable.getBitmap();
@@ -151,12 +185,24 @@ public class OutfitDetailActivity extends BasementActivity {
                             byte[] bb = bos.toByteArray();
                             String imageBase64 = Base64.encodeToString(bb, 0);
                             mOutfitItem.setOutfitImg(imageBase64);
+                            UseLog.d(imageBase64.length() + " : imageBase64.length()");
                         }
-                        repository.updateOutfitItem(mOutfitItem);
+                        mViewModel.updateOutfitItem(mOutfitItem);
                     } else {
-                        OutfitItem f = new OutfitItem();
-                        f.setOutfitOwnerID(getUserAccount().getUserID());
-                        f.setOutfitCateName(mCategory.getText().toString());
+                        OutfitItem outfitItem = new OutfitItem();
+                        outfitItem.setOutfitOwnerID(getUserAccount().getUserID());
+                        outfitItem.setOutfitCateName(mCategory.getText().toString());
+
+                        UseLog.d(mCurrentItemList.size() + " : mCurrentItemList.size()");
+                        StringBuilder itemListSerialized = new StringBuilder();
+                        for (FashionItem f : mCurrentItemList) {
+                            itemListSerialized.append(f.get_id());
+                            itemListSerialized.append("|");
+                        }
+                        itemListSerialized.deleteCharAt(itemListSerialized.lastIndexOf("|"));
+                        UseLog.d(itemListSerialized.toString());
+                        outfitItem.setFItemsSerialize(itemListSerialized.toString());
+
                         if (mImageView.getVisibility() == View.VISIBLE) {
                             BitmapDrawable drawable = (BitmapDrawable) mImageView.getDrawable();
                             Bitmap bitmap = drawable.getBitmap();
@@ -164,9 +210,11 @@ public class OutfitDetailActivity extends BasementActivity {
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
                             byte[] bb = bos.toByteArray();
                             String imageBase64 = Base64.encodeToString(bb, 0);
-                            f.setOutfitImg(imageBase64);
+                            outfitItem.setOutfitImg(imageBase64);
+                            UseLog.d(imageBase64.length() + " : imageBase64.length()");
                         }
-                        repository.addOutfitItem(f);
+
+                        mViewModel.addOutfitItem(outfitItem);
                     }
                     finish();
                     break;
@@ -181,9 +229,27 @@ public class OutfitDetailActivity extends BasementActivity {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     mTakePictureForResult.launch(cameraIntent);
                     break;
+                case R.id.of_add_item:
+                    for (int i = mAddItemListView.getChildCount() - 1; i >= 0; i--) {
+                        if (((CheckableItemLayout) mAddItemListView.getChildAt(i)).isChecked()) {
+                            FashionItem removeItem = mAddItemList.remove(i);
+                            mCurrentItemList.add(removeItem);
+                        }
+                    }
+                    mCurrentItemListViewAdapter.reDrawList(mCurrentItemList);
+                    mAddItemListViewAdapter.reDrawList(mAddItemList);
+                    break;
+                case R.id.of_delete_item:
+                    for (int i = mCurrentItemListView.getChildCount() - 1; i >= 0; i--) {
+                        if (((CheckableItemLayout) mCurrentItemListView.getChildAt(i)).isChecked()) {
+                            FashionItem removeItem = mCurrentItemList.remove(i);
+                            mAddItemList.add(removeItem);
+                        }
+                    }
+                    mCurrentItemListViewAdapter.reDrawList(mCurrentItemList);
+                    mAddItemListViewAdapter.reDrawList(mAddItemList);
+                    break;
             }
-
-
         }
     };
 
@@ -193,7 +259,7 @@ public class OutfitDetailActivity extends BasementActivity {
                     case Activity.RESULT_OK:
                         UseLog.i("Activity.RESULT_OK");
                         Uri uri = result.getData().getData();
-                        mImageView.setImageURI(uri);
+                        GlideApp.with(getApplicationContext()).load(uri).into(mImageView);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case Activity.RESULT_CANCELED:
@@ -211,7 +277,7 @@ public class OutfitDetailActivity extends BasementActivity {
                     case Activity.RESULT_OK:
                         UseLog.i("Activity.RESULT_OK");
                         Bundle bundle = result.getData().getExtras();
-                        mImageView.setImageBitmap((Bitmap) bundle.get("data"));
+                        GlideApp.with(getApplicationContext()).load((Bitmap) bundle.get("data")).into(mImageView);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case Activity.RESULT_CANCELED:
@@ -222,4 +288,16 @@ public class OutfitDetailActivity extends BasementActivity {
                 }
             }
     );
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UseLog.i("onDestroy");
+        mOutfitItem = null;
+        mUserFashionItemList = mCurrentItemList = mAddItemList = new ArrayList<>();
+        mAddItemListViewAdapter.reDrawList(mAddItemList);
+        mCurrentItemListViewAdapter.reDrawList(mCurrentItemList);
+        mCurrentItemList.clear();
+        mAddItemList.clear();
+    }
 }

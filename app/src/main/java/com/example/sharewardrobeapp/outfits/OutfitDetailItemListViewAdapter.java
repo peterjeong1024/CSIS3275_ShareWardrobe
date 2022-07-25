@@ -13,14 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.sharewardrobeapp.FashionItemsActivity;
 import com.example.sharewardrobeapp.R;
+import com.example.sharewardrobeapp.interfaces.GlideApp;
 import com.example.sharewardrobeapp.objects.FashionItem;
 
 import java.util.ArrayList;
@@ -36,6 +40,11 @@ public class OutfitDetailItemListViewAdapter extends BaseAdapter {
         mList = list;
     }
 
+    public void reDrawList(ArrayList<FashionItem> list) {
+        mList = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -44,11 +53,18 @@ public class OutfitDetailItemListViewAdapter extends BaseAdapter {
         }
 
         ImageView iconImageView = convertView.findViewById(R.id.of_detail_listview_item_iv);
-        CheckedTextView titleTextView = convertView.findViewById(R.id.of_detail_listview_item_tv);
+        TextView titleTextView = convertView.findViewById(R.id.of_detail_listview_item_tv);
+        CheckBox itemCheckBox = convertView.findViewById(R.id.of_detail_listview_item_cb);
 
-        iconImageView.setImageBitmap(mList.get(position).getItemImgBitmap());
+        GlideApp.with(mContext).load(mList.get(position).getItemImgBitmap()).into(iconImageView);
         titleTextView.setText(mList.get(position).getItemName());
-
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemCheckBox.setChecked(!itemCheckBox.isChecked());
+//                mOnClickItemInListInterface.OnClickItem(position);
+            }
+        });
         return convertView;
     }
 
@@ -65,5 +81,12 @@ public class OutfitDetailItemListViewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+
+    public ArrayList<FashionItem> getCheckedList() {
+        ArrayList<FashionItem> checkedList = new ArrayList<>();
+
+        return checkedList;
     }
 }

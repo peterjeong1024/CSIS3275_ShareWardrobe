@@ -1,5 +1,6 @@
 package com.example.sharewardrobeapp.main;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.sharewardrobeapp.R;
+import com.example.sharewardrobeapp.interfaces.GlideApp;
 
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
 
+    private Context mContext;
     private OnMenuClickListener mOnMenuClickListener;
 
     private int[] menuTitles = {
@@ -38,7 +42,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.mainmenu_cardview_layout, parent, false);
+        mContext = parent.getContext();
+        View v = LayoutInflater.from(mContext).inflate(R.layout.mainmenu_cardview_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -46,7 +51,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemTitle.setText(menuTitles[position]);
-        holder.itemImage.setImageResource(images[position]);
+        GlideApp.with(mContext).load(images[position]).into(holder.itemImage);
     }
 
     @Override

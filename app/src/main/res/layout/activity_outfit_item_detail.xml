@@ -48,6 +48,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/of_load_picture" />
 
+        <TextView
+            android:id="@+id/tv_current_item_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Current Item List"
+            android:textColor="@color/gray_600"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/of_category" />
+
+        <ListView
+            android:id="@+id/of_listview_current"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:choiceMode="multipleChoice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_current_item_list" />
+
+        <TextView
+            android:id="@+id/tv_add_item_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Add Item List"
+            android:textColor="@color/gray_600"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/of_listview_current" />
+
+        <ListView
+            android:id="@+id/of_listview_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:choiceMode="multipleChoice"
+            android:outlineSpotShadowColor="@color/gray_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_item_list" />
+
         <Button
             android:id="@+id/of_add_item"
             android:layout_width="wrap_content"
@@ -55,26 +98,16 @@
             android:layout_margin="10dp"
             android:text="Add Items"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/of_category" />
+            app:layout_constraintTop_toBottomOf="@id/of_listview_add" />
 
         <Button
             android:id="@+id/of_delete_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Delete Items"
+            android:text="Remove Items"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/of_category" />
-
-        <ListView
-            android:id="@+id/of_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:choiceMode="multipleChoice"
-            app:layout_constraintTop_toBottomOf="@id/of_add_item"/>
-
+            app:layout_constraintTop_toBottomOf="@id/of_listview_add" />
 
         <Button
             android:id="@+id/of_confirm"
@@ -84,6 +117,6 @@
             android:text="@string/common_text_confirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/of_listview" />
+            app:layout_constraintTop_toBottomOf="@id/of_add_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

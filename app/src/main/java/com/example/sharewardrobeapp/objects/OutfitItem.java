@@ -18,6 +18,7 @@ public class OutfitItem implements Parcelable {
     private String OutfitCateName;
 
     public OutfitItem() {
+        FItemsSerialize = "";
     }
 
     protected OutfitItem(Parcel in) {

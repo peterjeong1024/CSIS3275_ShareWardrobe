@@ -5,6 +5,7 @@
     <string name="common_text_accept">Accept</string>
     <string name="common_text_confirm">Confirm</string>
     <string name="common_text_cancel">Cancel</string>
+    <string name="common_text_add">Add</string>
     <string name="common_text_ok">Ok</string>
 
     <!-- Actionbar screen text -->
@@ -48,10 +49,7 @@
     <string name="toast_id_already_used">Input ID is already used. Please input another ID.</string>
     <string name="toast_this_id_can_use">This ID can use.</string>
     <string name="toast_succeed_to_create_new_account">Succeed to create new account. Please login with new account.</string>
-    <string name="toast_succeed_to_add_new_book">Succeed to add new book.</string>
-    <string name="toast_succeed_to_update_your_book_info">Succeed to update your book information.</string>
-    <string name="toast_failed_to_update_your_book_info">Failed to update your book information.</string>
-    <string name="toast_succeed_to_borrow_this_book">Succeed to borrow this book.</string>
-    <string name="toast_succeed_to_take_this_book">Succeed to take this book.</string>
+    <string name="you_do_not_have_any_items">You don`t have any fashion items in your list.</string>
+    <string name="insert_data_correctly">Please Insert data correctly.</string>
 
 </resources>

@@ -19,9 +19,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.sharewardrobeapp.BasementActivity;
 import com.example.sharewardrobeapp.R;
 import com.example.sharewardrobeapp.interfaces.DataRepository;
+import com.example.sharewardrobeapp.interfaces.GlideApp;
+import com.example.sharewardrobeapp.interfaces.MyGlideApp;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.util.ConstantValue;
 import com.example.sharewardrobeapp.util.UseLog;
@@ -108,7 +111,7 @@ public class FashionItemDetailActivity extends BasementActivity {
             mBrand.setText(mFashionItem.getItemBrand());
             mLocation.setText(mFashionItem.getItemLocation());
             if (!mFashionItem.getItemImg().equals("")) {
-                mImageView.setImageBitmap(mFashionItem.getItemImgBitmap());
+                GlideApp.with(getApplicationContext()).load(mFashionItem.getItemImgBitmap()).into(mImageView);
                 mImageView.setVisibility(View.VISIBLE);
             }
         }
@@ -216,7 +219,7 @@ public class FashionItemDetailActivity extends BasementActivity {
                     case Activity.RESULT_OK:
                         UseLog.i("Activity.RESULT_OK");
                         Uri uri = result.getData().getData();
-                        mImageView.setImageURI(uri);
+                        GlideApp.with(getApplicationContext()).load(uri).into(mImageView);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case Activity.RESULT_CANCELED:
@@ -234,7 +237,7 @@ public class FashionItemDetailActivity extends BasementActivity {
                     case Activity.RESULT_OK:
                         UseLog.i("Activity.RESULT_OK");
                         Bundle bundle = result.getData().getExtras();
-                        mImageView.setImageBitmap((Bitmap) bundle.get("data"));
+                        GlideApp.with(getApplicationContext()).load((Bitmap) bundle.get("data")).into(mImageView);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case Activity.RESULT_CANCELED:

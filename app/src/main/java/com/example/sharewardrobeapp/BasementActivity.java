@@ -24,8 +24,6 @@ public class BasementActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         isLogin = getUserAccount().isLogin(getApplicationContext());
 
-        UseLog.d("Activity Name : " + getLocalClassName());
-
         switch (getLocalClassName()) {
             case "FashionItemsActivity":
                 setTitle(getResources().getString(R.string.items_text));
@@ -66,7 +64,6 @@ public class BasementActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        UseLog.v("item.getItemId() : " + item.getTitle());
         switch (item.getItemId()) {
             case android.R.id.home:
                 UseLog.v("click back button in actionbar");
