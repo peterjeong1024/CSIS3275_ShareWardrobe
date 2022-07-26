@@ -3,6 +3,7 @@ package com.example.sharewardrobeapp.interfaces;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sharewardrobeapp.objects.Consultations;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.objects.UserAccount;
@@ -28,6 +29,8 @@ public class DataRepository {
     private MutableLiveData<OutfitItem> OutfitLiveData = new MutableLiveData<>();
 
     private MutableLiveData<UserAccount> UALiveData = new MutableLiveData<>();
+
+    private MutableLiveData<ArrayList<Consultations>> ConsultationLiveData = new MutableLiveData<>();
 
     public static DataRepository getInstance() {
         return ourInstance;
@@ -187,4 +190,22 @@ public class DataRepository {
         });
         return UALiveData;
     }
+
+    public LiveData<ArrayList<Consultations>> getConsultationDataList() {
+        api.getConsultationDataList().enqueue(new Callback<ArrayList<Consultations>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Consultations>> call, Response<ArrayList<Consultations>> response) {
+                ConsultationLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Consultations>> call, Throwable t) {
+                UseLog.d("Fail to get the OutfitItem list from server");
+                t.printStackTrace();
+            }
+        });
+        return ConsultationLiveData;
+    }
+
+
 }

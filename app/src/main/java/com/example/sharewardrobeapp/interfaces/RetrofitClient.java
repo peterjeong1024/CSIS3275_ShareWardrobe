@@ -1,5 +1,6 @@
 package com.example.sharewardrobeapp.interfaces;
 
+import com.example.sharewardrobeapp.objects.Consultations;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.objects.UserAccount;
@@ -20,8 +21,8 @@ import retrofit2.http.Query;
 
 public class RetrofitClient {
     //    private static final String Base_URL = "http://localhost:5000/";
-//    private static final String Base_URL = "http://192.168.31.18:5000/";
-    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
+    private static final String Base_URL = "http://192.168.31.18:5000/";
+//    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
     private static volatile Retrofit RetrofitInstance;
     private static volatile RetrofitInterface RetrofitInterfaceInstance;
 
@@ -94,5 +95,13 @@ public class RetrofitClient {
 
         @POST("/UserPlanData/add/")
         Call<String> addUserPlanData(@Body UserPlanData upd);
+
+
+
+
+
+
+        @GET("/Consultations/")
+        Call<ArrayList<Consultations>> getConsultationDataList();
     }
 }
