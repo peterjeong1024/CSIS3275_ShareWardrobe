@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,7 +11,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,9 +34,9 @@ import com.google.android.gms.tasks.Task;
 
 public class SignInActivity extends BasementActivity {
 
-    private GoogleSignInOptions googleSignInOptions;
-    private GoogleSignInClient googleSignInClient;
-    private GoogleSignInAccount googleSignInAccount;
+    private GoogleSignInOptions mGoogleSignInOptions;
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount mGoogleSignInAccount;
 
     private ImageView signBtnGoogle;
 
@@ -60,20 +58,99 @@ public class SignInActivity extends BasementActivity {
         mPw = findViewById(R.id.editTextPassword);
         mSignInBtn = findViewById(R.id.btnLogin);
         mSignUpBtn = findViewById(R.id.btnSignUp);
+        signBtnGoogle = findViewById(R.id.imgGoogle);
 
         mSignInBtn.setOnClickListener(btnClickListener);
         mSignUpBtn.setOnClickListener(btnClickListener);
-
-        signBtnGoogle = findViewById(R.id.imgGoogle);
+        signBtnGoogle.setOnClickListener(btnClickListener);
 
         mViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
-//        GoogleSignInSetup();
-//        signBtnGoogle.setOnClickListener((View view) -> {
-//            Intent signInIntent = googleSignInClient.getSignInIntent();
-//            activityResultLauncher.launch(signInIntent);
-//        });
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                        handleGoogleSignInTask(task);
+                    }
+                });
+    }
 
+    View.OnClickListener btnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == R.id.btnLogin) {
+                // run login code
+                signInAccount(mId.getText().toString(), mPw.getText().toString());
+            } else if (view.getId() == R.id.btnSignUp) {
+                // go to sign up activity
+                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                startActivity(intent);
+            } else if (view.getId() == R.id.imgGoogle) {
+                // check google account
+                GoogleSignInSetup();
+            }
+        }
+    };
+
+    private void signInAccount(String id, String pw) {
+        mViewModel.signInUAItemData(id, pw).observe(this, new Observer<UserAccount>() {
+            @Override
+            public void onChanged(UserAccount userAccount) {
+                if (userAccount == null) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_cannot_find_id), Toast.LENGTH_LONG).show();
+                } else {
+                    UseLog.d(userAccount.toString());
+                    setUserAccount(userAccount);
+                    UseLog.d(getUserAccount().toString());
+                    getUserAccount().tryLogin(getApplicationContext());
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void GoogleSignInSetup() {
+        mGoogleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, mGoogleSignInOptions);
+        mGoogleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
+
+        // checking if user is already logged in
+        if (mGoogleSignInAccount != null) {
+            String UserID = mGoogleSignInAccount.getEmail();
+            String UserPW = mGoogleSignInAccount.getId();
+            signInAccount(UserID, UserPW);
+        } else {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            activityResultLauncher.launch(signInIntent);
+        }
+    }
+
+    private void handleGoogleSignInTask(Task<GoogleSignInAccount> task) {
+        try {
+            GoogleSignInAccount googleSignInAccount = task.getResult(ApiException.class);
+            String UserID = googleSignInAccount.getEmail();
+            String UserPW = googleSignInAccount.getId();
+            String UserEmail = googleSignInAccount.getEmail();
+            String UserName = googleSignInAccount.getDisplayName();
+
+            UserAccount ua = new UserAccount(UserID, UserPW, UserName, UserEmail, true);
+            mViewModel.addUserAccount(ua).observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    if (aBoolean) {
+                        signInAccount(ua.getUserID(), ua.getUserPW());
+                    }
+                }
+            });
+        } catch (ApiException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed or Cancelled", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -124,97 +201,5 @@ public class SignInActivity extends BasementActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-    View.OnClickListener btnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (view.getId() == R.id.btnLogin) {
-                // run login code
-                checkAccount();
-            } else if (view.getId() == R.id.btnSignUp) {
-                // go to sign up activity
-                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
-                startActivity(intent);
-            }
-        }
-    };
-
-    private void checkAccount() {
-        mViewModel.checkUAItemData(mId.getText().toString(), mPw.getText().toString()).observe(this, new Observer<UserAccount>() {
-            @Override
-            public void onChanged(UserAccount userAccount) {
-                if (userAccount == null) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_cannot_find_id), Toast.LENGTH_LONG).show();
-                } else {
-                    setUserAccount(userAccount);
-                    getUserAccount().tryLogin(getApplicationContext());
-                    setResult(Activity.RESULT_OK);
-                    finish();
-                }
-            }
-        });
-    }
-
-    private void GoogleSignInSetup() {
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
-
-        // checking if user is already logged in
-        if (googleSignInAccount != null) {
-
-            // need to handle account information
-
-//            bundle.putString(ConstantValue.SIGNINTYPE, "Google");
-//            openHomeActivity = new Intent(SignInPage.this,HomeActivity.class);
-//            openHomePage = new Intent(SignInActivity.this, HomePageActivity.class);
-//            openHomePage.putExtras(bundle);
-//            startActivity(openHomePage);
-
-
-            finish();
-        }
-
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-
-                        //getting signed in account after user selected an account from google accounts dialog
-                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                        handleGoogleSignInTask(task);
-                    }
-                });
-    }
-
-    private void handleGoogleSignInTask(Task<GoogleSignInAccount> task) {
-        try {
-            GoogleSignInAccount acct = task.getResult(ApiException.class);
-
-            String name = acct.getDisplayName();
-            String id = acct.getId();
-            String email = acct.getEmail();
-            String idToken = acct.getIdToken();
-
-            UseLog.d(id + " " + email + " " + idToken);
-
-            // need to handle account information
-
-//            bundle.putString("SIGNINTYPE","Google");
-////            openHomeActivity = new Intent(SignInPage.this,HomeActivity.class);
-//            openHomePage = new Intent(SignInActivity.this, HomePageActivity.class);
-//            openHomePage.putExtras(bundle);
-//            startActivity(openHomePage);
-
-            finish();
-        } catch (ApiException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failed or Cancelled", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
 }

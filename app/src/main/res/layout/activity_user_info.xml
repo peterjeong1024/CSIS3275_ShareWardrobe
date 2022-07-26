@@ -22,18 +22,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:hint="@string/input_user_id"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                tools:ignore="SpeakableTextPresentCheck"
-                android:importantForAutofill="no" />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/btn_edit_user_info_id_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:backgroundTint="#bb937E"
                 android:text="Check ID duplication"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -45,22 +45,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:hint="@string/input_user_pw"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_edit_user_info_id_check"
-                android:importantForAutofill="no" />
+                app:layout_constraintTop_toBottomOf="@id/btn_edit_user_info_id_check" />
 
             <EditText
                 android:id="@+id/edit_user_info_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:hint="@string/input_user_name"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_user_info_pw"
-                android:importantForAutofill="no" />
+                app:layout_constraintTop_toBottomOf="@id/edit_user_info_pw" />
+
+            <EditText
+                android:id="@+id/edit_user_info_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:hint="@string/input_user_email"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_user_info_name" />
 
             <Button
                 android:id="@+id/btn_user_info_submit"

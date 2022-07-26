@@ -10,9 +10,6 @@ import com.example.sharewardrobeapp.objects.UserAccount;
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +26,8 @@ public class DataRepository {
     private MutableLiveData<OutfitItem> OutfitLiveData = new MutableLiveData<>();
 
     private MutableLiveData<UserAccount> UALiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> IsSuccessSignIn = new MutableLiveData<>();
+    private MutableLiveData<Boolean> IsSuccessUpdate = new MutableLiveData<>();
 
     private MutableLiveData<ArrayList<Consultations>> ConsultationLiveData = new MutableLiveData<>();
 
@@ -175,8 +174,8 @@ public class DataRepository {
     /*
          -- /UserAccount/ API list
          */
-    public LiveData<UserAccount> checkUserAccount(String id, String pw) {
-        api.checkUserAccount(id, pw).enqueue(new Callback<UserAccount>() {
+    public LiveData<UserAccount> signInUserAccount(String id, String pw) {
+        api.signInUserAccount(id, pw).enqueue(new Callback<UserAccount>() {
             @Override
             public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
                 UALiveData.setValue(response.body());
@@ -191,6 +190,62 @@ public class DataRepository {
         return UALiveData;
     }
 
+    public LiveData<UserAccount> checkUserAccount(String id) {
+        api.getUserAccount(id).enqueue(new Callback<UserAccount>() {
+            @Override
+            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                UALiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UserAccount> call, Throwable t) {
+                UseLog.d("Fail to get the UserAccount from server");
+                t.printStackTrace();
+            }
+        });
+        return UALiveData;
+    }
+
+    public MutableLiveData<Boolean> addUserAccount(UserAccount ua) {
+        api.addUserAccount(ua).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + response.body());
+                IsSuccessSignIn.postValue(true);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the UserAccount to server");
+                t.printStackTrace();
+                IsSuccessSignIn.postValue(false);
+            }
+        });
+        return IsSuccessSignIn;
+    }
+
+    public MutableLiveData<Boolean> updateUserAccount(UserAccount ua) {
+        api.updateUserAccount(ua.getUserID(), ua).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + response.body());
+                IsSuccessUpdate.postValue(true);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the UserAccount to server");
+                t.printStackTrace();
+                IsSuccessUpdate.postValue(false);
+            }
+        });
+        return IsSuccessUpdate;
+    }
+
+
+    /*
+            -- /Consultations/ API list
+     */
     public LiveData<ArrayList<Consultations>> getConsultationDataList() {
         api.getConsultationDataList().enqueue(new Callback<ArrayList<Consultations>>() {
             @Override

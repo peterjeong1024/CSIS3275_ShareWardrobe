@@ -21,8 +21,8 @@ import retrofit2.http.Query;
 
 public class RetrofitClient {
     //    private static final String Base_URL = "http://localhost:5000/";
-//    private static final String Base_URL = "http://192.168.31.18:5000/";
-    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
+    private static final String Base_URL = "http://192.168.31.18:5000/";
+//    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
     private static volatile Retrofit RetrofitInstance;
     private static volatile RetrofitInterface RetrofitInterfaceInstance;
 
@@ -76,14 +76,17 @@ public class RetrofitClient {
         @GET("/UserAccount/")
         Call<ArrayList<UserAccount>> getUserAccountList();
 
-        @GET("/UserAccount/{id}")
-        Call<UserAccount> getUserAccount(@Path("id") String _id);
+        @GET("/UserAccount/checkID/{UserID}")
+        Call<UserAccount> getUserAccount(@Path("UserID") String id);
 
         @GET("/UserAccount/{UserID}/{UserPW}")
-        Call<UserAccount> checkUserAccount(@Path("UserID") String id, @Path("UserPW") String pw);
+        Call<UserAccount> signInUserAccount(@Path("UserID") String id, @Path("UserPW") String pw);
 
         @POST("/UserAccount/add/")
         Call<String> addUserAccount(@Body UserAccount ua);
+
+        @POST("/UserAccount/update/{id}/")
+        Call<String> updateUserAccount(@Path("id") String _id, @Body UserAccount ua);
 
 
 

@@ -19,6 +19,7 @@ public class ConstantValue {
     public static final String SHARED_PREFERENCE_FILENAME = "UAInfo";
     public static final String SHARED_PREFERENCE_ID_VALUE = "UAid";
     public static final String SHARED_PREFERENCE_PASSWORD_VALUE = "UApw";
+    public static final String SHARED_PREFERENCE_IS_GOOGLE_ACCOUNT = "UAga";
 
 
 
