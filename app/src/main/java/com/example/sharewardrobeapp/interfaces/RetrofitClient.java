@@ -21,8 +21,8 @@ import retrofit2.http.Query;
 
 public class RetrofitClient {
     //    private static final String Base_URL = "http://localhost:5000/";
-    private static final String Base_URL = "http://192.168.31.18:5000/";
-//    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
+//    private static final String Base_URL = "http://192.168.31.18:5000/";
+    private static final String Base_URL = "https://sharewardrobe-api-server.herokuapp.com/";
     private static volatile Retrofit RetrofitInstance;
     private static volatile RetrofitInterface RetrofitInterfaceInstance;
 
