@@ -57,5 +57,6 @@
     <string name="toast_failed_to_create_new_account">Failed to create new account.</string>
     <string name="you_do_not_have_any_items">You don`t have any fashion items in your list.</string>
     <string name="insert_data_correctly">Please Insert data correctly.</string>
+    <string name="required_permissions_are_denied">Required permissions are denied.</string>
 
 </resources>

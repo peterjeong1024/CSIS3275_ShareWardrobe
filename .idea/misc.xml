@@ -8,6 +8,7 @@
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_home_page.xml" value="0.2953125" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_items.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_outfit_item_detail.xml" value="0.1953125" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_outfits.xml" value="0.1953125" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_sign_in.xml" value="0.19270833333333334" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/activity_user_info.xml" value="0.2921875" />
@@ -17,9 +18,13 @@
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/main_tab_list_layout_2.xml" value="0.38645833333333335" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/main_tab_list_layout_3.xml" value="0.38645833333333335" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/mainmenu_cardview_layout.xml" value="0.19427083333333334" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/outfit_detail_fashionitem_layout.xml" value="0.1953125" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/outfit_popup_itemlist_layout.xml" value="0.1953125" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/outfits_cardview_layout.xml" value="0.1953125" />
+        <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/layout/sample_outfit_detail_item_list_view_adapter.xml" value="0.18072916666666666" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/menu/actionbar_login.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/handr/AndroidStudioProjects/ShareWardrobeApp/app/src/main/res/menu/actionbar_logout.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/handr/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_list_item_multiple_choice.xml" value="0.1953125" />
       </map>
     </option>
   </component>

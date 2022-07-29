@@ -3,6 +3,8 @@ package com.example.sharewardrobeapp;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +22,7 @@ import com.example.sharewardrobeapp.main.MainRecyclerAdapter;
 import com.example.sharewardrobeapp.util.ConstantValue;
 import com.example.sharewardrobeapp.util.UseLog;
 
-public class MainActivity extends BasementActivity implements MainRecyclerAdapter.OnMenuClickListener{
+public class MainActivity extends BasementActivity implements MainRecyclerAdapter.OnMenuClickListener {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -38,11 +41,28 @@ public class MainActivity extends BasementActivity implements MainRecyclerAdapte
         recyclerView.setAdapter(adapter);
     }
 
+    private boolean isGetPermission() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, ConstantValue.PERMISSION_CAMERA) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(MainActivity.this, ConstantValue.PERMISSION_STORAGE_READ) == PackageManager.PERMISSION_DENIED
+                || ContextCompat.checkSelfPermission(MainActivity.this, ConstantValue.PERMISSION_STORAGE_WRITE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                    ConstantValue.PERMISSION_CAMERA,
+                    ConstantValue.PERMISSION_STORAGE_READ,
+                    ConstantValue.PERMISSION_STORAGE_WRITE}, ConstantValue.REQUEST_PERMISSION_RESULT);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        if (!isGetPermission()) {
+            return;
+        }
+
         if (!getUserAccount().isLogin(getApplicationContext())) {
-//            startActivity(new Intent(this, SignInActivity.class));
             mStartForResult.launch(new Intent(this, SignInActivity.class));
         }
     }
@@ -70,7 +90,7 @@ public class MainActivity extends BasementActivity implements MainRecyclerAdapte
 
     @Override
     public void onClickMenuItem(int position) {
-        switch(position) {
+        switch (position) {
             case 0: // Items
                 startActivity(new Intent(this, FashionItemsActivity.class));
                 break;
@@ -143,4 +163,25 @@ public class MainActivity extends BasementActivity implements MainRecyclerAdapte
                 }
             }
     );
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == ConstantValue.REQUEST_PERMISSION_RESULT) {
+            if (grantResults.length <= 0) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.required_permissions_are_denied), Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+
+            for (int i = 0 ; i < grantResults.length ; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.required_permissions_are_denied), Toast.LENGTH_SHORT) .show();
+                    finish();
+                    return;
+                }
+            }
+        }
+    }
 }
