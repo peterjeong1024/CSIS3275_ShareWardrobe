@@ -89,7 +89,7 @@ public class RetrofitClient {
         @GET("/UserPlanData/")
         Call<ArrayList<UserPlanData>> getUserPlanDataList();
 
-        @GET("/FashionItem/{id}")
+        @GET("/UserPlanData/{id}")
         Call<UserPlanData> getUserPlanDataItem(@Path("id") String id);
 
         @POST("/UserPlanData/add/")
