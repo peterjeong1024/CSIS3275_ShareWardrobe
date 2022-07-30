@@ -6,30 +6,30 @@ import android.os.Parcelable;
 public class UserPlanData implements Parcelable {
     private String _id;
 
-    private String FItemsSerialize;
-
     private String UserID;
+
+    private String FItemsSerialize;
 
     private String OutFitsSerialize;
 
+    private String WornDate;
+
+    public UserPlanData() {
+    }
+
+    public UserPlanData(String userID, String FItemsSerialize, String outFitsSerialize, String wornDate) {
+        UserID = userID;
+        this.FItemsSerialize = FItemsSerialize;
+        OutFitsSerialize = outFitsSerialize;
+        WornDate = wornDate;
+    }
+
     protected UserPlanData(Parcel in) {
         _id = in.readString();
-        FItemsSerialize = in.readString();
         UserID = in.readString();
+        FItemsSerialize = in.readString();
         OutFitsSerialize = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(_id);
-        dest.writeString(FItemsSerialize);
-        dest.writeString(UserID);
-        dest.writeString(OutFitsSerialize);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        WornDate = in.readString();
     }
 
     public static final Creator<UserPlanData> CREATOR = new Creator<UserPlanData>() {
@@ -52,6 +52,14 @@ public class UserPlanData implements Parcelable {
         this._id = _id;
     }
 
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
     public String getFItemsSerialize() {
         return FItemsSerialize;
     }
@@ -60,24 +68,34 @@ public class UserPlanData implements Parcelable {
         this.FItemsSerialize = FItemsSerialize;
     }
 
-    public String getUserID() {
-        return UserID;
-    }
-
-    public void setUserID(String UserID) {
-        this.UserID = UserID;
-    }
-
     public String getOutFitsSerialize() {
         return OutFitsSerialize;
     }
 
-    public void setOutFitsSerialize(String OutFitsSerialize) {
-        this.OutFitsSerialize = OutFitsSerialize;
+    public void setOutFitsSerialize(String outFitsSerialize) {
+        OutFitsSerialize = outFitsSerialize;
+    }
+
+    public String getWornDate() {
+        return WornDate;
+    }
+
+    public void setWornDate(String wornDate) {
+        WornDate = wornDate;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public String toString() {
-        return "UserPlanData [_id = " + _id + ", FItemsSerialize = " + FItemsSerialize + ", UserID = " + UserID + ", OutFitsSerialize = " + OutFitsSerialize + "]";
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(_id);
+        parcel.writeString(UserID);
+        parcel.writeString(FItemsSerialize);
+        parcel.writeString(OutFitsSerialize);
+        parcel.writeString(WornDate);
     }
 }

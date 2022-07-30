@@ -7,6 +7,7 @@ import com.example.sharewardrobeapp.objects.Consultations;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.objects.UserAccount;
+import com.example.sharewardrobeapp.objects.UserPlanData;
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
@@ -29,7 +30,12 @@ public class DataRepository {
     private MutableLiveData<Boolean> IsSuccessSignIn = new MutableLiveData<>();
     private MutableLiveData<Boolean> IsSuccessUpdate = new MutableLiveData<>();
 
+    private MutableLiveData<ArrayList<UserPlanData>> UserPlanDataListLiveData = new MutableLiveData<>();
+    private MutableLiveData<UserPlanData> UserPlanLiveData = new MutableLiveData<>();
+
     private MutableLiveData<ArrayList<Consultations>> ConsultationLiveData = new MutableLiveData<>();
+
+
 
     public static DataRepository getInstance() {
         return ourInstance;
@@ -240,6 +246,72 @@ public class DataRepository {
             }
         });
         return IsSuccessUpdate;
+    }
+
+
+    /*
+            -- /UserPlanData/ API list
+     */
+    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList() {
+        api.getUserPlanDataList().enqueue(new Callback<ArrayList<UserPlanData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<UserPlanData>> call, Response<ArrayList<UserPlanData>> response) {
+                UserPlanDataListLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<UserPlanData>> call, Throwable t) {
+                UseLog.d("Fail to get the OutfitItem list from server");
+                t.printStackTrace();
+            }
+        });
+        return UserPlanDataListLiveData;
+    }
+
+    public LiveData<UserPlanData> getUserPlanDataItem(String id) {
+        api.getUserPlanDataItem(id).enqueue(new Callback<UserPlanData>() {
+            @Override
+            public void onResponse(Call<UserPlanData> call, Response<UserPlanData> response) {
+                UserPlanLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UserPlanData> call, Throwable t) {
+                UseLog.d("Fail to get the UserPlanData from server");
+                t.printStackTrace();
+            }
+        });
+        return UserPlanLiveData;
+    }
+
+    public void addUserPlanDataItem(UserPlanData upd) {
+        api.addUserPlanData(upd).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the UserPlanData to server");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void updateUserPlanDataItem(UserPlanData upd) {
+        api.updateUserPlanData(upd.get_id(), upd).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to send and reply : " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to send the UserPlanData to server");
+                t.printStackTrace();
+            }
+        });
     }
 
 

@@ -70,9 +70,6 @@ public class RetrofitClient {
         Call<String> updateOutfitItem(@Path("id") String _id, @Body OutfitItem fi);
 
 
-
-
-
         @GET("/UserAccount/")
         Call<ArrayList<UserAccount>> getUserAccountList();
 
@@ -89,19 +86,17 @@ public class RetrofitClient {
         Call<String> updateUserAccount(@Path("id") String _id, @Body UserAccount ua);
 
 
-
-
-
-
         @GET("/UserPlanData/")
         Call<ArrayList<UserPlanData>> getUserPlanDataList();
+
+        @GET("/FashionItem/{id}")
+        Call<UserPlanData> getUserPlanDataItem(@Path("id") String id);
 
         @POST("/UserPlanData/add/")
         Call<String> addUserPlanData(@Body UserPlanData upd);
 
-
-
-
+        @POST("/UserPlanData/update/{id}/")
+        Call<String> updateUserPlanData(@Path("id") String _id, @Body UserPlanData upd);
 
 
         @GET("/Consultations/")
