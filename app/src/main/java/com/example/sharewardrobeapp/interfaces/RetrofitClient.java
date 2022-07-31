@@ -86,8 +86,8 @@ public class RetrofitClient {
         Call<String> updateUserAccount(@Path("id") String _id, @Body UserAccount ua);
 
 
-        @GET("/UserPlanData/")
-        Call<ArrayList<UserPlanData>> getUserPlanDataList();
+        @GET("/UserPlanData/UserItems/{PlanOwnerID}")
+        Call<ArrayList<UserPlanData>> getUserPlanDataList(@Path("PlanOwnerID") String userId);
 
         @GET("/UserPlanData/{id}")
         Call<UserPlanData> getUserPlanDataItem(@Path("id") String id);
