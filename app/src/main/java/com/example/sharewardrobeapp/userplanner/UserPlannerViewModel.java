@@ -25,8 +25,8 @@ public class UserPlannerViewModel extends ViewModel {
         super.onCleared();
     }
 
-    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList() {
-        UserPlanListLiveData = repository.getUserPlanDataList();
+    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList(String userID) {
+        UserPlanListLiveData = repository.getUserPlanDataList(userID);
         return UserPlanListLiveData;
     }
 
