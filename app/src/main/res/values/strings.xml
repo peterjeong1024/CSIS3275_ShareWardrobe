@@ -38,7 +38,7 @@
     <string name="input_item_brand">Input Item Brand</string>
     <string name="input_item_Location">Input Item Location</string>
 
-    !-- UserAccount activities text -->
+    <!-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>
     <string name="input_user_pw">Input Password</string>
     <string name="input_user_name">Input name</string>
@@ -58,5 +58,8 @@
     <string name="you_do_not_have_any_items">You don`t have any fashion items in your list.</string>
     <string name="insert_data_correctly">Please Insert data correctly.</string>
     <string name="required_permissions_are_denied">Required permissions are denied.</string>
+    <string name="choose_your_stylist">Choose Your Stylist</string>
 
+    <!-- Consultations Details activities text -->
+    <string name="consultation_description">Hi, nice to meet you! My name is Diana and I have worked as a fashion stylist for 10 years. I work as a stylist in Vogue... I look forward together with you to find your best look! And plan your wardrobe...</string>
 </resources>
