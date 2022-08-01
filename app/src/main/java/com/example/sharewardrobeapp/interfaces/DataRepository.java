@@ -81,23 +81,6 @@ public class DataRepository {
         return ItemLiveData;
     }
 
-//    public FashionItem getFashionItemPlain(String id) {
-//        MutableLiveData<FashionItem> ItemData = new MutableLiveData<>();
-//        api.getFashionItem(id).enqueue(new Callback<FashionItem>() {
-//            @Override
-//            public void onResponse(Call<FashionItem> call, Response<FashionItem> response) {
-//                ItemData.setValue(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<FashionItem> call, Throwable t) {
-//                UseLog.d("Fail to get the FashionItem from server");
-//                t.printStackTrace();
-//            }
-//        });
-//        return ItemData.getValue();
-//    }
-
     public void addFashionItem(FashionItem fashionItem) {
         api.addFashionItem(fashionItem).enqueue(new Callback<String>() {
             @Override
