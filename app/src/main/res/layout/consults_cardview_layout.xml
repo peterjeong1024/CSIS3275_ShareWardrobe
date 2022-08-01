@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view_consult"
     android:layout_margin="5dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="12dp"
-    app:contentPadding="4dp"
+    app:contentPadding="1dp"
     app:cardElevation="3dp"
     android:foreground="?selectableItemBackground"
     android:clickable="true">
@@ -17,7 +18,7 @@
         android:id="@+id/consultRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/consultant_image"
@@ -30,13 +31,25 @@
 
         <TextView
             android:id="@+id/consultant_name"
-            android:layout_width="236dp"
-            android:layout_height="39dp"
+            android:layout_width="198dp"
+            android:layout_height="36dp"
             android:layout_marginStart="16dp"
-            android:textSize="30sp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/consultant_image"
             app:layout_constraintStart_toEndOf="@+id/consultant_image"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/consultant_right_arrow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/consultant_name"
+            app:layout_constraintTop_toTopOf="parent"
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

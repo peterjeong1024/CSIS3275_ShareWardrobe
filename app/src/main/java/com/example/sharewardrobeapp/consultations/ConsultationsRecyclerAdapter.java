@@ -14,11 +14,14 @@ import com.example.sharewardrobeapp.R;
 import com.google.android.material.snackbar.Snackbar;
 
 public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<ConsultationsRecyclerAdapter.ViewHolder> {
-    private String[] names = {"Nicole Warne", "Margareth Zhang", "Jane Aldridge"};
+    private String[] names = {"Nicole Warne", "Margareth Zhang", "Jane Aldridge", "Gabi Gregg", "Wendy Nguyen"};
 
     private int[] images = {R.drawable.nicole_warne,
             R.drawable.margareth_zhang,
-            R.drawable.jane_aldridge};
+            R.drawable.jane_aldridge, R.drawable.gabi_gregg, R.drawable.wendy_nguyen};
+
+
+    private int[] arrows ={R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron};
 
     @NonNull
     @Override
@@ -35,6 +38,9 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
         viewHolder.consultImage.setImageResource(images[i]);
         viewHolder.consultName.setText(names[i]);
 
+        viewHolder.consultArrows.setImageResource(arrows[i]);
+
+
     }
 
     @Override
@@ -45,12 +51,15 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView consultImage;
         TextView consultName;
+        ImageView consultArrows;
+
 
         public ViewHolder(@NonNull View itemView) {
 
             super(itemView);
             consultImage = itemView.findViewById(R.id.consultant_image);
             consultName = itemView.findViewById(R.id.consultant_name);
+            consultArrows = itemView.findViewById(R.id.consultant_right_arrow);
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
