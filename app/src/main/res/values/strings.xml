@@ -69,7 +69,7 @@
         <item>Dec</item>
     </string-array>
 
-    !-- UserAccount activities text -->
+    <!-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>
     <string name="input_user_pw">Input Password</string>
     <string name="input_user_name">Input name</string>
