@@ -65,7 +65,7 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (mItemClickListener!= null) {
-                        mItemClickListener.onClickItem(position);
+                        mItemClickListener.onClickItem(position, mOutfitsItemList.get(position).getOutfitOwnerID());
                     }
                 }
             });
@@ -73,6 +73,6 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
     }
 
     public interface OnItemClick {
-        void onClickItem(int position);
+        void onClickItem(int position, String userID);
     }
 }

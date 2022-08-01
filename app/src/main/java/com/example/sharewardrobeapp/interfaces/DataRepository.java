@@ -25,6 +25,7 @@ public class DataRepository {
 
     private MutableLiveData<ArrayList<OutfitItem>> OutfitListLiveData = new MutableLiveData<>();
     private MutableLiveData<OutfitItem> OutfitLiveData = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<OutfitItem>> OutfitAllItemsLiveData = new MutableLiveData<>();
 
     private MutableLiveData<UserAccount> UALiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> IsSuccessSignIn = new MutableLiveData<>();
@@ -79,6 +80,23 @@ public class DataRepository {
         });
         return ItemLiveData;
     }
+
+//    public FashionItem getFashionItemPlain(String id) {
+//        MutableLiveData<FashionItem> ItemData = new MutableLiveData<>();
+//        api.getFashionItem(id).enqueue(new Callback<FashionItem>() {
+//            @Override
+//            public void onResponse(Call<FashionItem> call, Response<FashionItem> response) {
+//                ItemData.setValue(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<FashionItem> call, Throwable t) {
+//                UseLog.d("Fail to get the FashionItem from server");
+//                t.printStackTrace();
+//            }
+//        });
+//        return ItemData.getValue();
+//    }
 
     public void addFashionItem(FashionItem fashionItem) {
         api.addFashionItem(fashionItem).enqueue(new Callback<String>() {
@@ -174,6 +192,22 @@ public class DataRepository {
                 t.printStackTrace();
             }
         });
+    }
+
+    public LiveData<ArrayList<OutfitItem>> getAllOutfitList() {
+        api.getAllOutfitItem().enqueue(new Callback<ArrayList<OutfitItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<OutfitItem>> call, Response<ArrayList<OutfitItem>> response) {
+                OutfitAllItemsLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<OutfitItem>> call, Throwable t) {
+                UseLog.d("Fail to get the OutfitItem list from server");
+                t.printStackTrace();
+            }
+        });
+        return OutfitAllItemsLiveData;
     }
 
 

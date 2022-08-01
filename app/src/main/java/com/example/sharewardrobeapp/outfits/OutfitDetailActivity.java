@@ -292,7 +292,6 @@ public class OutfitDetailActivity extends BasementActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        UseLog.i("onDestroy");
         mOutfitItem = null;
         mUserFashionItemList = mCurrentItemList = mAddItemList = new ArrayList<>();
         mAddItemListViewAdapter.reDrawList(mAddItemList);

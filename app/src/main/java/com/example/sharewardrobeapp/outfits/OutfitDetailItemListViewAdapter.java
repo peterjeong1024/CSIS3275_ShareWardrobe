@@ -26,6 +26,7 @@ import com.example.sharewardrobeapp.FashionItemsActivity;
 import com.example.sharewardrobeapp.R;
 import com.example.sharewardrobeapp.interfaces.GlideApp;
 import com.example.sharewardrobeapp.objects.FashionItem;
+import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
 import java.util.List;

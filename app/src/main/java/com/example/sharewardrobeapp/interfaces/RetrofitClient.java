@@ -69,6 +69,9 @@ public class RetrofitClient {
         @POST("/OutfitItem/update/{id}")
         Call<String> updateOutfitItem(@Path("id") String _id, @Body OutfitItem fi);
 
+        @GET("/OutfitItem/")
+        Call<ArrayList<OutfitItem>> getAllOutfitItem();
+
 
         @GET("/UserAccount/")
         Call<ArrayList<UserAccount>> getUserAccountList();

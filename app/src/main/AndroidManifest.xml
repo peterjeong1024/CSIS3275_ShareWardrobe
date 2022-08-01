@@ -36,6 +36,10 @@
             android:exported="false"
             android:parentActivityName=".OutfitsActivity" />
         <activity
+            android:name=".outfits.OutfitRecommendDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".OutfitsActivity" />
+        <activity
             android:name=".signin.UserInfoActivity"
             android:exported="false"
             android:parentActivityName=".SignInActivity" />
