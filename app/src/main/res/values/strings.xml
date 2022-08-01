@@ -69,6 +69,34 @@
         <item>Dec</item>
     </string-array>
 
+    <!-- Planner activities text -->
+    <string name="button_last_month">Last month</string>
+    <string name="button_next_month">Next month</string>
+    <string name="button_today_month">Month of today</string>
+    <string name="spinner_year">Select year</string>
+    <string name="spinner_month">Select month</string>
+    <string name="weekday0">Sun</string>
+    <string name="weekday1">Mon</string>
+    <string name="weekday2">Tue</string>
+    <string name="weekday3">Wed</string>
+    <string name="weekday4">Thu</string>
+    <string name="weekday5">Fri</string>
+    <string name="weekday6">Sat</string>
+    <string-array name="month_name">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
+
     !-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>
     <string name="input_user_pw">Input Password</string>
