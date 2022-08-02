@@ -29,6 +29,10 @@ public class ConsultActivity extends BasementActivity implements ConsultationsRe
             R.drawable.margareth_zhang,
             R.drawable.jane_aldridge, R.drawable.gabi_gregg, R.drawable.wendy_nguyen};
 
+    public int[] descriptions = {R.string.nicole_desc, R.string.margareth_desc,
+    R.string.jane_desc, R.string.gabi_desc, R.string.wendy_desc};
+
+
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     ConsultationsRecyclerAdapter adapter;
@@ -76,14 +80,15 @@ public class ConsultActivity extends BasementActivity implements ConsultationsRe
   //      ConsultationsRecyclerAdapter accesNames = new ConsultationsRecyclerAdapter();
     //    String name = accesNames.names[position];
         String name = names[position];
-        String desc = "Check pat pat!!";
+        //String desc = "Check pat pat!!";
+        int description = descriptions[position];
         int imageRes = images[position];
 
         Intent i = new Intent(this, ConsultationsDetailsActivity.class);
         Bundle b = new Bundle();
         b.putString("name", name);
       //  b.putString("image", mConsultationsItems.get(position).getConsultantImg());
-        b.putString("desc", desc );
+        b.putString("desc", String.valueOf(getText(description)));
         b.putInt("imageRes", imageRes);
         i.putExtras(b);
         startActivity(i);
