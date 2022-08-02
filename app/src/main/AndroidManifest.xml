@@ -24,6 +24,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".userplanner.PlannerDayActivity"
+            android:exported="false"
+            android:parentActivityName=".PlannerActivity" />
+        <activity
             android:name=".SignInActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />

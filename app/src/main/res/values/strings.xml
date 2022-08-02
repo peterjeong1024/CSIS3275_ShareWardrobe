@@ -68,6 +68,13 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
+    <string name="button_last_day">Last day</string>
+    <string name="button_next_day">Next day</string>
+    <string name="button_today_day">Today</string>
+    <string name="plan_description">Plan Description</string>
+    <string name="plan_content">Plan Content</string>
+    <string name="plan_image">Plan Image</string>
+    <string name="button_add_plan">Planning your day</string>
 
     <!-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>

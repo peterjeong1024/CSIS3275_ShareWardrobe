@@ -1,11 +1,16 @@
 package com.example.sharewardrobeapp;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -13,15 +18,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.sharewardrobeapp.fashionitems.FashionItemsViewModel;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.objects.UserPlanData;
 import com.example.sharewardrobeapp.outfits.OutfitsViewModel;
+import com.example.sharewardrobeapp.userplanner.PlannerDayActivity;
 import com.example.sharewardrobeapp.userplanner.UserPlannerViewModel;
-import com.example.sharewardrobeapp.userplanner.UserPlansRecyclerAdapter;
+import com.example.sharewardrobeapp.userplanner.PlannerMonthRecyclerAdapter;
+import com.example.sharewardrobeapp.util.ConstantValue;
 import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.ArrayList;
@@ -30,19 +36,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlannerActivity extends BasementActivity implements UserPlansRecyclerAdapter.OnItemClick {
+public class PlannerActivity extends BasementActivity implements PlannerMonthRecyclerAdapter.OnItemClick {
 
     final static private int START_YEAR_LIST_YEAR = 1900;
 
-    private Button last_month_button;
-    private Button next_month_button;
-    private Button today_month_button;
-    private Spinner month_spinner;
-    private Spinner year_spinner;
-    private RecyclerView planner_recycler_view;
+    private Button lastMonthButton;
+    private Button nextMonthButton;
+    private Button todayMonthButton;
+    private Spinner monthSpinner;
+    private Spinner yearSpinner;
+    private RecyclerView plannerMonthRecyclerView;
 
     private RecyclerView.LayoutManager layoutManager;
-    private UserPlansRecyclerAdapter adapter;
+    private PlannerMonthRecyclerAdapter adapter;
     private UserPlannerViewModel mPlannerViewModel;
     private ArrayList<UserPlanData> mUserPlanDataItems;
     private Map<String, Bitmap> dayBitmap;
@@ -58,11 +64,11 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
         setContentView(R.layout.activity_planner);
 
         // identify controls and set up their listeners
-        month_spinner = findViewById(R.id.month_spinner);
-        month_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        monthSpinner = findViewById(R.id.month_spinner);
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateCalendar(view.getContext());
+                updateCalendar();
             }
 
             @Override
@@ -71,7 +77,7 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
             }
         });
 
-        year_spinner = findViewById(R.id.year_spinner);
+        yearSpinner = findViewById(R.id.year_spinner);
         ArrayList<String> years = new ArrayList<>();
         for (int i = Calendar.getInstance().get(Calendar.YEAR) + 5; i >= START_YEAR_LIST_YEAR; i--) {
             years.add(0, String.valueOf(i));
@@ -79,11 +85,11 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
         ArrayAdapter<String> yearsAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, years);
         yearsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        year_spinner.setAdapter(yearsAdapter);
-        year_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        yearSpinner.setAdapter(yearsAdapter);
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateCalendar(view.getContext());
+                updateCalendar();
             }
 
             @Override
@@ -92,51 +98,53 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
             }
         });
 
-        last_month_button = findViewById(R.id.last_month_button);
-        last_month_button.setOnClickListener(new View.OnClickListener() {
+        lastMonthButton = findViewById(R.id.last_month_button);
+        lastMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int newMonthPosition = (month_spinner.getSelectedItemPosition() + 11) % 12;
+                int newMonthPosition = (monthSpinner.getSelectedItemPosition() + 11) % 12;
                 if (newMonthPosition == 11) {
-                    if (year_spinner.getSelectedItemPosition() == 0) {
+                    if (yearSpinner.getSelectedItemPosition() == 0) {
                         return;
                     }
-                    year_spinner.setSelection(year_spinner.getSelectedItemPosition() - 1);
+                    yearSpinner.setSelection(yearSpinner.getSelectedItemPosition() - 1);
                 }
-                month_spinner.setSelection(newMonthPosition);
-                updateCalendar(v.getContext());
+                monthSpinner.setSelection(newMonthPosition);
+                updateCalendar();
             }
         });
-        next_month_button = findViewById(R.id.next_month_button);
-        next_month_button.setOnClickListener(new View.OnClickListener() {
+        nextMonthButton = findViewById(R.id.next_month_button);
+        nextMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int newMonthPosition = (month_spinner.getSelectedItemPosition() + 1) % 12;
+                int newMonthPosition = (monthSpinner.getSelectedItemPosition() + 1) % 12;
                 if (newMonthPosition == 0) {
-                    if (year_spinner.getSelectedItemPosition() == year_spinner.getAdapter().getCount() - 1) {
+                    if (yearSpinner.getSelectedItemPosition() == yearSpinner.getAdapter().getCount() - 1) {
                         return;
                     }
-                    year_spinner.setSelection(year_spinner.getSelectedItemPosition() + 1);
+                    yearSpinner.setSelection(yearSpinner.getSelectedItemPosition() + 1);
                 }
-                month_spinner.setSelection(newMonthPosition);
-                updateCalendar(v.getContext());
+                monthSpinner.setSelection(newMonthPosition);
+                updateCalendar();
             }
         });
-        today_month_button = findViewById(R.id.today_month_button);
-        today_month_button.setOnClickListener(new View.OnClickListener() {
+        todayMonthButton = findViewById(R.id.today_month_button);
+        todayMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar today = Calendar.getInstance();
                 int currYear = today.get(Calendar.YEAR);
                 int currMonth = today.get(Calendar.MONTH);
 
-                month_spinner.setSelection(currMonth);
-                year_spinner.setSelection(currYear - START_YEAR_LIST_YEAR);
-                updateCalendar(v.getContext());
+                monthSpinner.setSelection(currMonth);
+                yearSpinner.setSelection(currYear - START_YEAR_LIST_YEAR);
+                updateCalendar();
             }
         });
 
-        planner_recycler_view = findViewById(R.id.planner_recycler_view);
+        plannerMonthRecyclerView = findViewById(R.id.planner_month_recycler_view);
+        layoutManager = new GridLayoutManager(this, 7);
+        plannerMonthRecyclerView.setLayoutManager(layoutManager);
 
         dayBitmap = new HashMap<String, Bitmap>();
 
@@ -149,7 +157,7 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
         // mOutfitItems = new ArrayList<>();
         // mFashionItems = new ArrayList<>();
 
-        today_month_button.callOnClick();
+        todayMonthButton.callOnClick();
 
         // bring data from ViewModel object. data is brought automatically
         mPlannerViewModel.getUserPlanDataList(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<UserPlanData>>() {
@@ -158,7 +166,7 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
                 // data(UserPlanData) is brought here  automatically and asynchronously
                 mUserPlanDataItems = items;
                 // displayScreen(items);
-                updateCalendar(getApplicationContext());
+                updateCalendar();
             }
         });
     }
@@ -182,27 +190,42 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
     public void onClickItem(int position) {
         UseLog.d("Date clicked");
 
-        Toast.makeText(getBaseContext(), "day clicked", Toast.LENGTH_SHORT).show();
-//        Intent i = new Intent(this, FashionItemDetailActivity.class);
-//        i.putExtra(ConstantValue.FASHION_ITEM_CLICK_ID, mFashionItemList.get(position).get_id());
-//        startActivity(i);
+        // Toast.makeText(getBaseContext(), "day clicked", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, PlannerDayActivity.class);
+        i.putExtra(ConstantValue.PLANNER_CLICK_DAY, getYyyy() + getMm() + String.format("%02d", position - adapter.getOffset() + 1));
+        startForResult.launch(i);
     }
 
+    ActivityResultLauncher<Intent> startForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        String returnString = data.getExtras().getString(ConstantValue.PLANNER_CLICK_DAY);
+                        monthSpinner.setSelection(Integer.parseInt(returnString.substring(4, 6)) - 1);
+                        yearSpinner.setSelection(Integer.parseInt(returnString.substring(0, 4)) - START_YEAR_LIST_YEAR);
+                        updateCalendar();
+                    }
+                }
+            }
+    );
+
+
     private String getYyyy() {
-        return year_spinner.getSelectedItem().toString();
+        return yearSpinner.getSelectedItem().toString();
     }
 
     private String getMm() {
-        return String.format("%02d", month_spinner.getSelectedItemPosition());
+        return String.format("%02d", monthSpinner.getSelectedItemPosition());
     }
 
-    private void updateCalendar(Context context) {
-        layoutManager = new GridLayoutManager(this, 7);
-        planner_recycler_view.setLayoutManager(layoutManager);
+    private void updateCalendar() {
         dayBitmap.clear();
-        adapter = new UserPlansRecyclerAdapter(getYyyy(), getMm(), dayBitmap);
+        adapter = new PlannerMonthRecyclerAdapter(getYyyy(), getMm(), dayBitmap);
         adapter.setOnItemClickListener(this);
-        planner_recycler_view.setAdapter(adapter);
+        plannerMonthRecyclerView.setAdapter(adapter);
 
         // finish if plans are not loaded yet
         if (mUserPlanDataItems == null) {
@@ -210,8 +233,8 @@ public class PlannerActivity extends BasementActivity implements UserPlansRecycl
         }
 
         // update calendar according to mUserPlanDataList
-        int mm = month_spinner.getSelectedItemPosition();
-        int yyyy = Integer.parseInt(year_spinner.getSelectedItem().toString());
+        int mm = monthSpinner.getSelectedItemPosition();
+        int yyyy = Integer.parseInt(yearSpinner.getSelectedItem().toString());
         for (int i = 0; i < mUserPlanDataItems.size(); i++) {
             Calendar wornDate = Calendar.getInstance();
             wornDate.setTime(new Date(Long.parseLong(mUserPlanDataItems.get(i).getWornDate())));

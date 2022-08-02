@@ -76,7 +76,7 @@
         app:layout_constraintTop_toTopOf="@+id/last_month_button" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/planner_recycler_view"
+        android:id="@+id/planner_month_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -107,7 +107,7 @@
         android:text="@string/weekday0"
         app:layout_constraintEnd_toStartOf="@+id/monday_text"
         app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="@+id/planner_recycler_view"
+        app:layout_constraintStart_toStartOf="@+id/planner_month_recycler_view"
         app:layout_constraintTop_toBottomOf="@+id/last_month_button" />
 
     <TextView
@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/weekday6"
-        app:layout_constraintEnd_toEndOf="@+id/planner_recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/planner_month_recycler_view"
         app:layout_constraintStart_toEndOf="@+id/friday_text"
         app:layout_constraintTop_toTopOf="@+id/friday_text" />
 

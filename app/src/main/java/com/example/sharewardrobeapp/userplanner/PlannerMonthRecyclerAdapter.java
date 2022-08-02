@@ -14,16 +14,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharewardrobeapp.R;
-import com.example.sharewardrobeapp.interfaces.GlideApp;
-import com.example.sharewardrobeapp.util.UseLog;
 
 import java.util.Calendar;
 import java.util.Map;
 
-public class UserPlansRecyclerAdapter extends RecyclerView.Adapter<UserPlansRecyclerAdapter.ViewHolder> {
+public class PlannerMonthRecyclerAdapter extends RecyclerView.Adapter<PlannerMonthRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
-    private UserPlansRecyclerAdapter.OnItemClick mItemClickListener;
+    private PlannerMonthRecyclerAdapter.OnItemClick mItemClickListener;
     private Calendar date0;
     private int offset;
     private int total;
@@ -33,8 +31,8 @@ public class UserPlansRecyclerAdapter extends RecyclerView.Adapter<UserPlansRecy
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View v = LayoutInflater.from(mContext).inflate(R.layout.planner_cardview_layout, parent, false);
-        UserPlansRecyclerAdapter.ViewHolder viewHolder = new UserPlansRecyclerAdapter.ViewHolder(v);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.planner_month_cardview_layout, parent, false);
+        PlannerMonthRecyclerAdapter.ViewHolder viewHolder = new PlannerMonthRecyclerAdapter.ViewHolder(v);
         return viewHolder;
     }
 
@@ -52,9 +50,8 @@ public class UserPlansRecyclerAdapter extends RecyclerView.Adapter<UserPlansRecy
         // set day image if bitmap available
         String bitmapKey = String.format("%04d%02d%02d", currDate.get(Calendar.YEAR), currDate.get(Calendar.MONTH), currDate.get(Calendar.DATE));
         Bitmap bitmap = dayBitmap.get(bitmapKey);
-        if (bitmap != null) {
-            holder.dayImage.setImageBitmap(bitmap);
-        }
+
+        holder.dayImage.setImageBitmap(bitmap);
 
         // set background light gray if not current month
         if ((12 + currDate.get(Calendar.MONTH) - date0.get(Calendar.MONTH)) % 12 != (offset == 0 ? 0 : 1)) {
@@ -75,7 +72,7 @@ public class UserPlansRecyclerAdapter extends RecyclerView.Adapter<UserPlansRecy
         return total;
     }
 
-    public UserPlansRecyclerAdapter(String yyyy, String mm, Map<String, Bitmap> dayBitmap) {
+    public PlannerMonthRecyclerAdapter(String yyyy, String mm, Map<String, Bitmap> dayBitmap) {
         // 1st day of month
         date0 = Calendar.getInstance();
         date0.set(Integer.parseInt(yyyy), Integer.parseInt(mm), 1);
@@ -93,7 +90,7 @@ public class UserPlansRecyclerAdapter extends RecyclerView.Adapter<UserPlansRecy
         return offset;
     }
 
-    public void setOnItemClickListener(UserPlansRecyclerAdapter.OnItemClick itemClickListener) {
+    public void setOnItemClickListener(PlannerMonthRecyclerAdapter.OnItemClick itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -120,15 +117,6 @@ public class UserPlansRecyclerAdapter extends RecyclerView.Adapter<UserPlansRecy
                     }
                 }
             });
-        }
-
-        public void setDayImage(Bitmap bitmap) {
-            GlideApp.with(mContext).load(bitmap).into(dayImage);
-        }
-        public boolean hasDayImage() {
-            UseLog.d(dayText.getText().toString());
-            // dayImage.getDrawable() != null
-            return true;
         }
     }
 
