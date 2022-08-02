@@ -29,9 +29,6 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
             R.drawable.margareth_zhang,
             R.drawable.jane_aldridge, R.drawable.gabi_gregg, R.drawable.wendy_nguyen};
 
-
-
-
     private int[] arrows ={R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron};
 
 */
@@ -69,8 +66,6 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
 
      /*   viewHolder.consultImage.setImageResource(images[i]);
         viewHolder.consultName.setText(names[i]);
-
-
         viewHolder.consultArrows.setImageResource(arrows[i]);*/
 
         viewHolder.consultImage.setImageResource(mImages[i]);
