@@ -61,5 +61,10 @@
     <string name="choose_your_stylist">Choose Your Stylist</string>
 
     <!-- Consultations Details activities text -->
-    <string name="consultation_description">Hi, nice to meet you! My name is Diana and I have worked as a fashion stylist for 10 years. I work as a stylist in Vogue... I look forward together with you to find your best look! And plan your wardrobe...</string>
+    <string name="consultation_description">Test Test Description</string>
+    <string name="nicole_desc">Hi, nice to meet you! My name is Nicole and I have worked in a fashion industry for more that 10 years. I have my personal lifestyle blog. I look forward together with you to find your best look! And plan your wardrobe...</string>
+    <string name="margareth_desc">Hi, my name is Margareth. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
+    <string name="jane_desc">Hi, my name is Jane. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
+    <string name="gabi_desc">Hi, my name is Gabi. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
+    <string name="wendy_desc">Hi, my name is wendy. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
 </resources>
