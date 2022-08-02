@@ -29,10 +29,16 @@
         <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.143" />
         <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.143" />
         <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_consult.xml" value="0.22916666666666666" />
-        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_consultations_details.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_consultations_details.xml" value="0.264" />
         <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_fashion_item_detail.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_items.xml" value="0.1" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_outfit_item_detail.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_outfits.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/activity_planner.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/consults_cardview_layout.xml" value="0.264" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/fashionitem_cardview_layout.xml" value="0.264" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/mainmenu_cardview_layout.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/patri/Desktop/CSIS3275_ShareWardrobe/app/src/main/res/layout/outfit_detail_fashionitem_layout.xml" value="0.264" />
       </map>
     </option>
   </component>

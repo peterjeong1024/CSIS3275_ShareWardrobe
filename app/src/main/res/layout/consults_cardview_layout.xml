@@ -31,20 +31,23 @@
 
         <TextView
             android:id="@+id/consultant_name"
-            android:layout_width="198dp"
+            android:layout_width="150dp"
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
-            android:textSize="15sp"
+            android:layout_marginEnd="8dp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/consultant_right_arrow"
             app:layout_constraintLeft_toRightOf="@+id/consultant_image"
             app:layout_constraintStart_toEndOf="@+id/consultant_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/consultant_right_arrow"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/consultant_name"

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/choose_your_stylist"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,11 +21,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/consultRecyclerView"
-        android:layout_width="337dp"
+        android:layout_width="400dp"
         android:layout_height="509dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

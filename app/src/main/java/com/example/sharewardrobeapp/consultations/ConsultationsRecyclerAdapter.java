@@ -11,17 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharewardrobeapp.R;
+import com.example.sharewardrobeapp.objects.Consultations;
+import com.example.sharewardrobeapp.objects.FashionItem;
 import com.google.android.material.snackbar.Snackbar;
 
-public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<ConsultationsRecyclerAdapter.ViewHolder> {
-    private String[] names = {"Nicole Warne", "Margareth Zhang", "Jane Aldridge", "Gabi Gregg", "Wendy Nguyen"};
+import java.util.ArrayList;
 
+public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<ConsultationsRecyclerAdapter.ViewHolder> {
+
+
+    public String[] names = {"Nicole Warne", "Margareth Zhang", "Jane Aldridge", "Gabi Gregg", "Wendy Nguyen"};
     private int[] images = {R.drawable.nicole_warne,
             R.drawable.margareth_zhang,
             R.drawable.jane_aldridge, R.drawable.gabi_gregg, R.drawable.wendy_nguyen};
 
 
+
     private int[] arrows ={R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron};
+
+    private OnItemClick pItemClickListener;
+
+
 
     @NonNull
     @Override
@@ -30,6 +40,11 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
                 .inflate(R.layout.consults_cardview_layout, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
+    }
+
+
+    public void setOnItemClickListener (OnItemClick itemClickListener) {
+        pItemClickListener = itemClickListener;
     }
 
     @Override
@@ -65,11 +80,17 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
+                    pItemClickListener.onClickItem(position);
                     Snackbar.make(v, "Click detected on item" + position,
                                     Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+
                 }
             });
         }
+    }
+
+    public interface OnItemClick {
+        void onClickItem(int position);
     }
 }
