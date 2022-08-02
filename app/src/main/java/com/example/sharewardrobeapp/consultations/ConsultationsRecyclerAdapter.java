@@ -1,5 +1,6 @@
 package com.example.sharewardrobeapp.consultations;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +20,16 @@ import java.util.ArrayList;
 
 public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<ConsultationsRecyclerAdapter.ViewHolder> {
 
-
-    public String[] names = {"Nicole Warne", "Margareth Zhang", "Jane Aldridge", "Gabi Gregg", "Wendy Nguyen"};
-    private int[] images = {R.drawable.nicole_warne,
-            R.drawable.margareth_zhang,
-            R.drawable.jane_aldridge, R.drawable.gabi_gregg, R.drawable.wendy_nguyen};
-
-
-
-    private int[] arrows ={R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron,R.drawable.arrow_chevron};
-
+    private Context mContext;
+    private String[] mNames;
+    private int[] mImages;
     private OnItemClick pItemClickListener;
 
-
+    public ConsultationsRecyclerAdapter(Context c, String[] names, int[] images) {
+        mContext = c;
+        mNames = names;
+        mImages = images;
+    }
 
     @NonNull
     @Override
@@ -49,18 +47,14 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
-        viewHolder.consultImage.setImageResource(images[i]);
-        viewHolder.consultName.setText(names[i]);
-
-        viewHolder.consultArrows.setImageResource(arrows[i]);
-
-
+        viewHolder.consultImage.setImageResource(mImages[i]);
+        viewHolder.consultName.setText(mNames[i]);
+        viewHolder.consultArrows.setImageResource(R.drawable.arrow_chevron);
     }
 
     @Override
     public int getItemCount() {
-        return names.length;
+        return mNames.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +78,6 @@ public class ConsultationsRecyclerAdapter extends RecyclerView.Adapter<Consultat
                     Snackbar.make(v, "Click detected on item" + position,
                                     Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-
                 }
             });
         }

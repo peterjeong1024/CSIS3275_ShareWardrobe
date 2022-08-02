@@ -19,7 +19,6 @@ import com.example.sharewardrobeapp.R;
 import com.example.sharewardrobeapp.interfaces.DataRepository;
 import com.example.sharewardrobeapp.interfaces.GlideApp;
 import com.example.sharewardrobeapp.objects.Consultations;
-import com.example.sharewardrobeapp.util.UseLog;
 
 public class ConsultationsDetailsActivity extends BasementActivity {
 
@@ -48,7 +47,7 @@ public class ConsultationsDetailsActivity extends BasementActivity {
         setTitle(getResources().getString(R.string.consultations_text));
         intent = getIntent();
         b = intent.getExtras();
-        mImageView = findViewById(R.id.consultant_image);
+        mImageView = findViewById(R.id.imageViewConsultant);
         mTimeOne = findViewById(R.id.time_one);
         mTimeTwo = findViewById(R.id.time_two);
         mTimeThree = findViewById(R.id.time_three);
@@ -57,6 +56,7 @@ public class ConsultationsDetailsActivity extends BasementActivity {
         mConsultantDesc = findViewById(R.id.consultation_desc);
         mConsultantName.setText(b.getString("name"));
         mConsultantDesc.setText(b.getString("desc"));
+        mImageView.setImageResource(b.getInt("imageRes"));
         //From the FashionItemDetailActivity.java
         //Do I need to add the (check it is Add or Edit mode?)
 
@@ -81,9 +81,13 @@ public class ConsultationsDetailsActivity extends BasementActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+        return true;
     }
 
    // From The OnClickListener??
+
+
 
 }
