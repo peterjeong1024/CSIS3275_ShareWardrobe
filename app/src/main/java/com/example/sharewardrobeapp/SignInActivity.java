@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharewardrobeapp.objects.UserAccount;
@@ -44,6 +45,7 @@ public class SignInActivity extends BasementActivity {
     private EditText mPw;
     private Button mSignInBtn;
     private Button mSignUpBtn;
+    private TextView mSignUpText;
 
     private SignInViewModel mViewModel;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -59,10 +61,12 @@ public class SignInActivity extends BasementActivity {
         mSignInBtn = findViewById(R.id.btnLogin);
         mSignUpBtn = findViewById(R.id.btnSignUp);
         signBtnGoogle = findViewById(R.id.imgGoogle);
+        mSignUpText = findViewById(R.id.txtSignUp);
 
         mSignInBtn.setOnClickListener(btnClickListener);
         mSignUpBtn.setOnClickListener(btnClickListener);
         signBtnGoogle.setOnClickListener(btnClickListener);
+        mSignUpText.setOnClickListener(btnClickListener);
 
         mViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
@@ -86,6 +90,10 @@ public class SignInActivity extends BasementActivity {
                 // go to sign up activity
                 Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
                 startActivity(intent);
+            } else if (view.getId() == R.id.txtSignUp) {
+                // go to sign up activity
+                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                startActivity(intent);
             } else if (view.getId() == R.id.imgGoogle) {
                 // check google account
                 GoogleSignInSetup();
@@ -100,9 +108,7 @@ public class SignInActivity extends BasementActivity {
                 if (userAccount == null) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_cannot_find_id), Toast.LENGTH_LONG).show();
                 } else {
-                    UseLog.d(userAccount.toString());
                     setUserAccount(userAccount);
-                    UseLog.d(getUserAccount().toString());
                     getUserAccount().tryLogin(getApplicationContext());
                     setResult(Activity.RESULT_OK);
                     finish();

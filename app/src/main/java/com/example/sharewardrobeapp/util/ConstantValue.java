@@ -29,8 +29,8 @@ public class ConstantValue {
     public static final String SHARED_PREFERENCE_PASSWORD_VALUE = "UApw";
     public static final String SHARED_PREFERENCE_IS_GOOGLE_ACCOUNT = "UAga";
 
-
-
+    // ENCRYPT_KEY_VALUE
+    public static final String CIPHER_ENCRYPT_KEY_VALUE = "sharewardrobeapp";
 
 }
 

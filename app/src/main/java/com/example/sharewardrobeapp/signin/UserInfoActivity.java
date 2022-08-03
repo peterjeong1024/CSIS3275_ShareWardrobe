@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -98,13 +99,17 @@ public class UserInfoActivity extends BasementActivity {
             return;
         }
         UserAccount ua = new UserAccount(newID, newPw, newName, newEmail, false);
-        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<UserAccount>() {
+        UseLog.d("signUpAccount start to check : " + ua.toString());
+        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(UserAccount userAccount) {
-                if (userAccount == null) {
-                    createAccount(ua);
-                } else {
+            public void onChanged(Boolean isExisted) {
+                UseLog.d("signUpAccount +onChanged : " + isExisted);
+                if (isExisted) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_id_already_used), Toast.LENGTH_LONG).show();
+                } else {
+                    if (Boolean.FALSE.equals(mViewModel.getIsWorking().getValue())) {
+                        createAccount(ua);
+                    }
                 }
             }
         });
@@ -161,13 +166,13 @@ public class UserInfoActivity extends BasementActivity {
         String newPw = mUserPwEdit.getText().toString();
 
         UserAccount ua = new UserAccount(newID, newPw);
-        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<UserAccount>() {
+        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(UserAccount userAccount) {
-                if (userAccount == null) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_this_id_can_use), Toast.LENGTH_LONG).show();
-                } else {
+            public void onChanged(Boolean isExisted) {
+                if (isExisted) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_id_already_used), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_this_id_can_use), Toast.LENGTH_LONG).show();
                 }
             }
         });
