@@ -43,7 +43,11 @@ public class FashionItemsRecyclerAdapter extends RecyclerView.Adapter<FashionIte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemTitle.setText(mFashionItemList.get(position).getItemName());
-        GlideApp.with(mContext).load(mFashionItemList.get(position).getItemImgBitmap()).into(holder.itemImage);
+        if (!mFashionItemList.get(position).getItemImg().equals("")) {
+            GlideApp.with(mContext).load(mFashionItemList.get(position).getItemImgBitmap()).into(holder.itemImage);
+        } else {
+            GlideApp.with(mContext).load(mContext.getResources().getDrawable(R.drawable.no_image)).into(holder.itemImage);
+        }
     }
 
     @Override

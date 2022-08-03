@@ -214,9 +214,10 @@ public class FashionItem implements Parcelable {
     }
 
     public Bitmap getItemImgBitmap() {
-        if (ItemImg == null) {
+        if (ItemImg == null || ItemImg.equals("")) {
             return null;
         }
+
         byte[] bytes = Base64.decode(ItemImg, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }

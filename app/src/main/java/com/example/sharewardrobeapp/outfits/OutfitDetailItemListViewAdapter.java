@@ -57,7 +57,11 @@ public class OutfitDetailItemListViewAdapter extends BaseAdapter {
         TextView titleTextView = convertView.findViewById(R.id.of_detail_listview_item_tv);
         CheckBox itemCheckBox = convertView.findViewById(R.id.of_detail_listview_item_cb);
 
-        GlideApp.with(mContext).load(mList.get(position).getItemImgBitmap()).into(iconImageView);
+        if (!mList.get(position).getItemImg().equals("")) {
+            GlideApp.with(mContext).load(mList.get(position).getItemImgBitmap()).into(iconImageView);
+        } else {
+            GlideApp.with(mContext).load(mContext.getResources().getDrawable(R.drawable.no_image)).into(iconImageView);
+        }
         titleTextView.setText(mList.get(position).getItemName());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
