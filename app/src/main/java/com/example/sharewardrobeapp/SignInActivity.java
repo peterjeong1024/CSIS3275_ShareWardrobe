@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharewardrobeapp.interfaces.AES;
 import com.example.sharewardrobeapp.objects.UserAccount;
 import com.example.sharewardrobeapp.signin.SignInViewModel;
 import com.example.sharewardrobeapp.signin.UserInfoActivity;
@@ -102,12 +103,26 @@ public class SignInActivity extends BasementActivity {
     };
 
     private void signInAccount(String id, String pw) {
-        mViewModel.signInUAItemData(id, pw).observe(this, new Observer<UserAccount>() {
+        String encPw = "";
+
+        try {
+            encPw = AES.encByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, pw);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mViewModel.signInUAItemData(id, encPw).observe(this, new Observer<UserAccount>() {
             @Override
             public void onChanged(UserAccount userAccount) {
                 if (userAccount == null) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_cannot_find_id), Toast.LENGTH_LONG).show();
                 } else {
+                    try {
+                        userAccount.setUserPW(AES.decByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, userAccount.getUserPW()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     setUserAccount(userAccount);
                     getUserAccount().tryLogin(getApplicationContext());
                     setResult(Activity.RESULT_OK);
@@ -144,7 +159,19 @@ public class SignInActivity extends BasementActivity {
             String UserEmail = googleSignInAccount.getEmail();
             String UserName = googleSignInAccount.getDisplayName();
 
-            UserAccount ua = new UserAccount(UserID, UserPW, UserName, UserEmail, true);
+
+
+            String encPw = "";
+
+            try {
+                encPw = AES.encByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, UserPW);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            UserAccount ua = new UserAccount(UserID, encPw, UserName, UserEmail, true);
+            UseLog.d("handleGoogleSignInTask : " + ua.toString());
+
             mViewModel.addUserAccount(ua).observe(this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {

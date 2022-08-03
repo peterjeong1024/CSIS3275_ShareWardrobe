@@ -19,6 +19,7 @@ public class SignInViewModel extends ViewModel {
 
     public SignInViewModel() {
         super();
+        isWorking.postValue(false);
     }
 
     @Override
@@ -38,6 +39,7 @@ public class SignInViewModel extends ViewModel {
     }
 
     public LiveData<Boolean> addUserAccount(UserAccount ua) {
+        isWorking.postValue(true);
         IsSuccessSignIn = repository.addUserAccount(ua);
         return IsSuccessSignIn;
     }
