@@ -275,8 +275,8 @@ public class DataRepository {
     /*
             -- /UserPlanData/ API list
      */
-    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList() {
-        api.getUserPlanDataList().enqueue(new Callback<ArrayList<UserPlanData>>() {
+    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList(String userID) {
+        api.getUserPlanDataList(userID).enqueue(new Callback<ArrayList<UserPlanData>>() {
             @Override
             public void onResponse(Call<ArrayList<UserPlanData>> call, Response<ArrayList<UserPlanData>> response) {
                 UserPlanDataListLiveData.setValue(response.body());
@@ -317,6 +317,21 @@ public class DataRepository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 UseLog.d("Fail to send the UserPlanData to server");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void deleteUserPlanData(String id) {
+        api.deleteUserPlanData(id).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to delete and reply : " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to delete UserPlanData");
                 t.printStackTrace();
             }
         });

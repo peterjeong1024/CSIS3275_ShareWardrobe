@@ -24,6 +24,13 @@ public class ConstantValue {
     public static final String SIGNINTYPE = "SIGNINTYPE";
     public static final String FULLNAME = "FULLNAME";
 
+    // planner
+    public static final String PLANNER_CLICK_DAY = "planner_day";
+    public static final String PLANNER_DETAIL_ID = "planner_id";
+    public static final String PLANNER_DETAIL_MODE = "planner_state";
+    public static final String STATE_EDITABLE = "EDITABLE";
+    public static final String STATE_VIEW = "VIEW";
+
     // SharedPreference value
     public static final String SHARED_PREFERENCE_FILENAME = "UAInfo";
     public static final String SHARED_PREFERENCE_ID_VALUE = "UAid";

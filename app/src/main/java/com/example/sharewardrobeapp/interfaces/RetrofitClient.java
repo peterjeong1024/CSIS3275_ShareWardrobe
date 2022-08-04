@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -89,8 +90,8 @@ public class RetrofitClient {
         Call<String> updateUserAccount(@Path("id") String _id, @Body UserAccount ua);
 
 
-        @GET("/UserPlanData/")
-        Call<ArrayList<UserPlanData>> getUserPlanDataList();
+        @GET("/UserPlanData/UserItems/{PlanOwnerID}")
+        Call<ArrayList<UserPlanData>> getUserPlanDataList(@Path("PlanOwnerID") String userId);
 
         @GET("/UserPlanData/{id}")
         Call<UserPlanData> getUserPlanDataItem(@Path("id") String id);
@@ -100,6 +101,9 @@ public class RetrofitClient {
 
         @POST("/UserPlanData/update/{id}/")
         Call<String> updateUserPlanData(@Path("id") String _id, @Body UserPlanData upd);
+
+        @DELETE("/UserPlanData/{id}")
+        Call<String> deleteUserPlanData(@Path("id") String id);
 
 
         @GET("/Consultations/")

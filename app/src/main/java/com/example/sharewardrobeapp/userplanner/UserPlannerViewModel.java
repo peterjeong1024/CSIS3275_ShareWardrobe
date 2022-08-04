@@ -25,8 +25,8 @@ public class UserPlannerViewModel extends ViewModel {
         super.onCleared();
     }
 
-    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList() {
-        UserPlanListLiveData = repository.getUserPlanDataList();
+    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList(String userID) {
+        UserPlanListLiveData = repository.getUserPlanDataList(userID);
         return UserPlanListLiveData;
     }
 
@@ -35,4 +35,15 @@ public class UserPlannerViewModel extends ViewModel {
         return UserPlanLiveData;
     }
 
+    public void addUserPlanDataItem(UserPlanData userPlanData) {
+        repository.addUserPlanDataItem(userPlanData);
+    }
+
+    public void updateUserPlanDataItem(UserPlanData userPlanData) {
+        repository.updateUserPlanDataItem(userPlanData);
+    }
+
+    public void deleteUserPlanData(String id) {
+        repository.deleteUserPlanData(id);
+    }
 }

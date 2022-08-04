@@ -30,6 +30,19 @@
             android:name=".stats.StatsDetailsActivity"
             android:exported="false" />
         <activity
+            android:name=".userplanner.PlannerSelectItemActivity"
+            android:exported="false"
+            android:parentActivityName=".PlannerActivity" />
+        <activity
+            android:name=".userplanner.PlannerDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".PlannerActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".userplanner.PlannerDayActivity"
+            android:exported="false"
+            android:parentActivityName=".PlannerActivity" />
+        <activity
             android:name=".consultations.ConsultationsDetailsActivity"
             android:exported="false"
             android:parentActivityName=".ConsultActivity" />

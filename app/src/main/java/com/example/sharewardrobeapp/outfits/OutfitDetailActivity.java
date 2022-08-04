@@ -51,6 +51,7 @@ public class OutfitDetailActivity extends BasementActivity {
     private Button mConfirm;
 
     private boolean isEditMode = false;
+    private String selectedItemID = "";
     private OutfitItem mOutfitItem;
     private ArrayList<FashionItem> mUserFashionItemList;
     private ArrayList<FashionItem> mCurrentItemList;
@@ -82,12 +83,20 @@ public class OutfitDetailActivity extends BasementActivity {
 
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
 
-        if (getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT) != null) {
+        // check it is Add mode or Edit mode
+        if (getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID) != null) {
             isEditMode = true;
-            mOutfitItem = getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT);
-            UseLog.d(mOutfitItem.toString());
+            selectedItemID = getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID);
+            mViewModel.getOutfitItemData(selectedItemID).observe(this, new Observer<OutfitItem>() {
+                @Override
+                public void onChanged(OutfitItem outfitItem) {
+                    mOutfitItem = outfitItem;
+                    drawScreenData();
+                }
+            });
+        } else {
+            drawScreenData();
         }
-        drawScreenData();
     }
 
     private void drawScreenData() {

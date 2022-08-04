@@ -42,7 +42,11 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
         mUserItemsRecyclerView = findViewById(R.id.outfits_recycler_view);
         mRecommendItemsRecyclerView = findViewById(R.id.recommend_recycler_view);
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         mViewModel.getOutfitAllListLiveData().observe(this, new Observer<ArrayList<OutfitItem>>() {
             @Override
             public void onChanged(ArrayList<OutfitItem> outfitItems) {
@@ -56,7 +60,6 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
                         mRecommendOutfitItemList.add(oi);
                     }
                 }
-
                 drawItemList();
             }
         });
@@ -84,13 +87,13 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
         Intent i;
         if (id.equals(userID)) {
             i = new Intent(this, OutfitDetailActivity.class);
-//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mUserOutfitItemList.get(position).get_id());
-            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mUserOutfitItemList.get(position));
+            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mUserOutfitItemList.get(position).get_id());
+//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mUserOutfitItemList.get(position));
             UseLog.d(mUserOutfitItemList.get(position).toString());
         } else {
             i = new Intent(this, OutfitRecommendDetailActivity.class);
-//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mRecommendOutfitItemList.get(position).get_id());
-            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mRecommendOutfitItemList.get(position));
+            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mRecommendOutfitItemList.get(position).get_id());
+//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mRecommendOutfitItemList.get(position));
         }
         startActivity(i);
     }
