@@ -43,9 +43,13 @@
 
     <!-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>
+    <string name="input_username">Username</string>
     <string name="input_user_pw">Input Password</string>
+    <string name="input_password">Password</string>
     <string name="input_user_name">Input name</string>
+    <string name="input_name">Name</string>
     <string name="input_user_email">Input email</string>
+    <string name="input_email">Email</string>
 
     <!-- Planner activities text -->
     <string name="button_last_month">Last month</string>
@@ -96,6 +100,7 @@
     <string name="toast_input_data_is_wrong">Input data is wrong. Please input correct data.</string>
     <string name="toast_succeed_to_update_your_account">Succeed to update your account.</string>
     <string name="toast_id_already_used">Input ID is already used. Please input another ID.</string>
+    <string name="toast_username_already_used">Username not available. Please input another username.</string>
     <string name="toast_this_id_can_use">This ID can use.</string>
     <string name="toast_succeed_to_create_new_account">Succeed to create new account. Please login with new account.</string>
     <string name="toast_failed_to_create_new_account">Failed to create new account.</string>
