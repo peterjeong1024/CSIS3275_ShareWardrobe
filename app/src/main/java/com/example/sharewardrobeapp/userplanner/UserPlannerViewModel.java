@@ -42,4 +42,8 @@ public class UserPlannerViewModel extends ViewModel {
     public void updateUserPlanDataItem(UserPlanData userPlanData) {
         repository.updateUserPlanDataItem(userPlanData);
     }
+
+    public void deleteUserPlanData(String id) {
+        repository.deleteUserPlanData(id);
+    }
 }

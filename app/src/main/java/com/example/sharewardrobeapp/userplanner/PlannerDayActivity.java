@@ -69,6 +69,19 @@ public class PlannerDayActivity extends BasementActivity implements PlannerDayRe
                         catch (ParseException e) {
                             UseLog.e(e.getMessage());
                         }
+
+                        // bring data from ViewModel object. data is brought automatically
+                        mPlannerViewModel.getUserPlanDataList(getUserAccount().getUserID()).observe(PlannerDayActivity.this, new Observer<ArrayList<UserPlanData>>() {
+                            @Override
+                            public void onChanged(ArrayList<UserPlanData> items) {
+                                // data(UserPlanData) is brought here  automatically and asynchronously
+                                mUserPlanDataItems.clear();
+                                mUserPlanDataItems.addAll(items);
+                                // told adapter to refresh all items
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
                         updateScreen();
                     }
                 }

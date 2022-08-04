@@ -127,7 +127,10 @@ public class PlannerDetailActivity extends BasementActivity implements PlannerDe
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isEditable && plan != null) {
+                    mPlannerViewModel.deleteUserPlanData(plan.get_id());
+                    finish();
+                }
             }
         });
         confirmButton = findViewById(R.id.event_confirm_button);

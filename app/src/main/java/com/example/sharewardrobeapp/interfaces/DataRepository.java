@@ -322,6 +322,21 @@ public class DataRepository {
         });
     }
 
+    public void deleteUserPlanData(String id) {
+        api.deleteUserPlanData(id).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                UseLog.d("Succeed to delete and reply : " + response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                UseLog.d("Fail to delete UserPlanData");
+                t.printStackTrace();
+            }
+        });
+    }
+
     public void updateUserPlanDataItem(UserPlanData upd) {
         api.updateUserPlanData(upd.get_id(), upd).enqueue(new Callback<String>() {
             @Override
