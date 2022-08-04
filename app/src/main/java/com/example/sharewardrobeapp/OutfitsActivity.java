@@ -42,7 +42,11 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
         mUserItemsRecyclerView = findViewById(R.id.outfits_recycler_view);
         mRecommendItemsRecyclerView = findViewById(R.id.recommend_recycler_view);
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         mViewModel.getOutfitAllListLiveData().observe(this, new Observer<ArrayList<OutfitItem>>() {
             @Override
             public void onChanged(ArrayList<OutfitItem> outfitItems) {
@@ -56,7 +60,6 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
                         mRecommendOutfitItemList.add(oi);
                     }
                 }
-
                 drawItemList();
             }
         });

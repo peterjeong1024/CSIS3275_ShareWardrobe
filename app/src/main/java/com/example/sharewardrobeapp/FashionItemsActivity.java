@@ -33,14 +33,18 @@ public class FashionItemsActivity extends BasementActivity implements FashionIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
-
         recyclerView = findViewById(R.id.items_recycler_view);
         mViewModel = new ViewModelProvider(this).get(FashionItemsViewModel.class);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         mViewModel.getFashionItemListLiveData(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<FashionItem>>() {
             @Override
             public void onChanged(ArrayList<FashionItem> fashionItems) {
-                mFashionItemList = fashionItems;
+                mFashionItemList = new ArrayList<>();
+                mFashionItemList.addAll(fashionItems);
                 drawItemList(mFashionItemList);
             }
         });
