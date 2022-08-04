@@ -105,7 +105,7 @@ public class UserInfoActivity extends BasementActivity {
             @Override
             public void onChanged(Boolean isExisted) {
                 if (isExisted) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_id_already_used), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_username_already_used), Toast.LENGTH_LONG).show();
                 } else {
                     if (Boolean.FALSE.equals(mViewModel.getIsWorking().getValue())) {
                         createAccount(ua);
