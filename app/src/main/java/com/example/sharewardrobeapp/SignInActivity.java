@@ -170,7 +170,6 @@ public class SignInActivity extends BasementActivity {
             }
 
             UserAccount ua = new UserAccount(UserID, encPw, UserName, UserEmail, true);
-            UseLog.d("handleGoogleSignInTask : " + ua.toString());
 
             mViewModel.addUserAccount(ua).observe(this, new Observer<Boolean>() {
                 @Override

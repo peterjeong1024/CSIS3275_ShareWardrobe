@@ -55,7 +55,6 @@ public class OutfitDetailActivity extends BasementActivity {
     private ArrayList<FashionItem> mUserFashionItemList;
     private ArrayList<FashionItem> mCurrentItemList;
     private ArrayList<FashionItem> mAddItemList;
-    private String selectedItemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,26 +82,20 @@ public class OutfitDetailActivity extends BasementActivity {
 
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
 
-        // check it is Add mode or Edit mode
-        if (getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID) != null) {
+        if (getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT) != null) {
             isEditMode = true;
-            selectedItemID = getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID);
-            mViewModel.getOutfitItemData(selectedItemID).observe(this, new Observer<OutfitItem>() {
-                @Override
-                public void onChanged(OutfitItem outfitItem) {
-                    mOutfitItem = outfitItem;
-                    drawScreenData();
-                }
-            });
-        } else {
-            drawScreenData();
+            mOutfitItem = getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT);
+            UseLog.d(mOutfitItem.toString());
         }
+        drawScreenData();
     }
 
     private void drawScreenData() {
         if (isEditMode) {
             if (!mOutfitItem.getOutfitImg().equals("")) {
-                GlideApp.with(getApplicationContext()).load(mOutfitItem.getOutfitImgBitmap()).into(mImageView);
+                GlideApp.with(getApplicationContext())
+                        .load(mOutfitItem.getOutfitImgBitmap())
+                        .into(mImageView);
                 mImageView.setVisibility(View.VISIBLE);
             }
             mCategory.setText(mOutfitItem.getOutfitCateName());
@@ -135,6 +128,7 @@ public class OutfitDetailActivity extends BasementActivity {
         } else {
             mAddItemList.addAll(mUserFashionItemList);
         }
+
         mCurrentItemListViewAdapter = new OutfitDetailItemListViewAdapter(this, mCurrentItemList);
         mCurrentItemListView.setAdapter(mCurrentItemListViewAdapter);
         mAddItemListViewAdapter = new OutfitDetailItemListViewAdapter(this, mAddItemList);
@@ -259,7 +253,9 @@ public class OutfitDetailActivity extends BasementActivity {
                     case Activity.RESULT_OK:
                         UseLog.i("Activity.RESULT_OK");
                         Uri uri = result.getData().getData();
-                        GlideApp.with(getApplicationContext()).load(uri).into(mImageView);
+                        GlideApp.with(getApplicationContext())
+                                .load(uri)
+                                .into(mImageView);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case Activity.RESULT_CANCELED:
@@ -277,7 +273,9 @@ public class OutfitDetailActivity extends BasementActivity {
                     case Activity.RESULT_OK:
                         UseLog.i("Activity.RESULT_OK");
                         Bundle bundle = result.getData().getExtras();
-                        GlideApp.with(getApplicationContext()).load((Bitmap) bundle.get("data")).into(mImageView);
+                        GlideApp.with(getApplicationContext())
+                                .load((Bitmap) bundle.get("data"))
+                                .into(mImageView);
                         mImageView.setVisibility(View.VISIBLE);
                         break;
                     case Activity.RESULT_CANCELED:
@@ -291,12 +289,15 @@ public class OutfitDetailActivity extends BasementActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        UseLog.i("Activity.RESULT_OK");
         mOutfitItem = null;
         mUserFashionItemList = mCurrentItemList = mAddItemList = new ArrayList<>();
         mAddItemListViewAdapter.reDrawList(mAddItemList);
         mCurrentItemListViewAdapter.reDrawList(mCurrentItemList);
         mCurrentItemList.clear();
         mAddItemList.clear();
+        mImageView.setImageDrawable(null);
+        mImageView.setVisibility(View.GONE);
+        super.onDestroy();
     }
 }

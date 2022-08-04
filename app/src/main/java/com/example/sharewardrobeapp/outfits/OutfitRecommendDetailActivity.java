@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -46,7 +47,7 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
 
     private OutfitItem mOutfitItem;
     private ArrayList<FashionItem> mCurrentItemList;
-    private String selectedItemID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +66,9 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
 
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
 
-        if (getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID) != null) {
-            selectedItemID = getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID);
-            mViewModel.getOutfitItemData(selectedItemID).observe(this, new Observer<OutfitItem>() {
-                @Override
-                public void onChanged(OutfitItem outfitItem) {
-                    mOutfitItem = outfitItem;
-                    drawScreenData();
-                }
-            });
+        if (getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT) != null) {
+            mOutfitItem = getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT);
+            drawScreenData();
         }
     }
 
@@ -89,17 +84,19 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
         String[] itemListArray = mOutfitItem.getFItemsSerialize().split("\\|");
         Collections.addAll(list, itemListArray);
 
-        for (int i = 0; i < list.size(); i++) {
-            mViewModel.getFashionItemData(list.get(i)).observe(this, new Observer<FashionItem>() {
-                @Override
-                public void onChanged(FashionItem fashionItem) {
-                    if (!mCurrentItemList.contains(fashionItem)) {
-                        mCurrentItemList.add(fashionItem);
-                        drawListview();
+        mViewModel.getOutfitDetailItemListData(mOutfitItem.getOutfitOwnerID()).observe(this, new Observer<ArrayList<FashionItem>>() {
+            @Override
+            public void onChanged(ArrayList<FashionItem> fashionItems) {
+                mCurrentItemList.clear();
+                for (FashionItem f : fashionItems) {
+                    if (list.contains(f.get_id())) {
+                        mCurrentItemList.add(f);
                     }
                 }
-            });
-        }
+                drawListview();
+            }
+        });
+
     }
 
     private void drawListview() {
@@ -122,5 +119,6 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
         mCurrentItemList = new ArrayList<>();
         mCurrentItemListViewAdapter.reDrawList(mCurrentItemList);
         mCurrentItemList.clear();
+        mViewModel.onCleared();
     }
 }
