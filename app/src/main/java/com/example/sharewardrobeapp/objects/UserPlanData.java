@@ -14,14 +14,17 @@ public class UserPlanData implements Parcelable {
 
     private String WornDate;
 
+    private String ItemDescription;
+
     public UserPlanData() {
     }
 
-    public UserPlanData(String userID, String FItemsSerialize, String outFitsSerialize, String wornDate) {
+    public UserPlanData(String userID, String FItemsSerialize, String outFitsSerialize, String wornDate, String itemDescription) {
         UserID = userID;
         this.FItemsSerialize = FItemsSerialize;
         OutFitsSerialize = outFitsSerialize;
         WornDate = wornDate;
+        ItemDescription = itemDescription;
     }
 
     protected UserPlanData(Parcel in) {
@@ -30,6 +33,7 @@ public class UserPlanData implements Parcelable {
         FItemsSerialize = in.readString();
         OutFitsSerialize = in.readString();
         WornDate = in.readString();
+        ItemDescription = in.readString();
     }
 
     public static final Creator<UserPlanData> CREATOR = new Creator<UserPlanData>() {
@@ -84,6 +88,14 @@ public class UserPlanData implements Parcelable {
         WornDate = wornDate;
     }
 
+    public String getItemDescription() {
+        return ItemDescription;
+    }
+
+    public void setItemDescription(String itemDescription) {
+        ItemDescription = itemDescription;
+    }
+
 
     @Override
     public int describeContents() {
@@ -97,5 +109,6 @@ public class UserPlanData implements Parcelable {
         parcel.writeString(FItemsSerialize);
         parcel.writeString(OutFitsSerialize);
         parcel.writeString(WornDate);
+        parcel.writeString(ItemDescription);
     }
 }
