@@ -41,7 +41,7 @@
     <!-- OutfitItems activities text -->
     <string name="recommended_outfits">Recommended Outfits</string>
 
-    !-- UserAccount activities text -->
+    <!-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>
     <string name="input_user_pw">Input Password</string>
     <string name="input_user_name">Input name</string>
@@ -61,5 +61,13 @@
     <string name="you_do_not_have_any_items">You don`t have any fashion items in your list.</string>
     <string name="insert_data_correctly">Please insert data correctly.</string>
     <string name="required_permissions_are_denied">Required permissions are denied.</string>
+    <string name="choose_your_stylist">Choose Your Stylist</string>
 
+    <!-- Consultations Details activities text -->
+    <string name="consultation_description">Test Test Description</string>
+    <string name="nicole_desc">Hi, my name is Nicole and I have worked in a fashion industry for more that 10 years. I have my personal lifestyle blog. I look forward together with you to find your best look! And plan your wardrobe...</string>
+    <string name="margareth_desc">Hi, my name is Margareth. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
+    <string name="jane_desc">Hi, my name is Jane. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
+    <string name="gabi_desc">Hi, my name is Gabi. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
+    <string name="wendy_desc">Hi, my name is wendy. I am working as an editor at Vogue magazine Australia. Can not wait to meet you and discuss your wardrobe...</string>
 </resources>
