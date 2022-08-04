@@ -83,11 +83,12 @@ public class FashionItemDetailActivity extends BasementActivity {
         mLoadPicture.setOnClickListener(mButtonCLickListener);
         mTakePicture.setOnClickListener(mButtonCLickListener);
 
+        mViewModel = new ViewModelProvider(this).get(FashionItemsViewModel.class);
+
         // check it is Add mode or Edit mode
         if (getIntent().getStringExtra(ConstantValue.FASHION_ITEM_CLICK_ID) != null) {
             isEditMode = true;
             selectedItemID = getIntent().getStringExtra(ConstantValue.FASHION_ITEM_CLICK_ID);
-            mViewModel = new ViewModelProvider(this).get(FashionItemsViewModel.class);
             mViewModel.getFashionItemData(selectedItemID).observe(this, new Observer<FashionItem>() {
                 @Override
                 public void onChanged(FashionItem fashionItem) {
