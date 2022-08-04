@@ -19,7 +19,8 @@ public class ConstantValue {
 
     // intent putExtra value
     public static final String FASHION_ITEM_CLICK_ID = "fashion_item";
-    public static final String OUTFIT_ITEM_CLICK_ID = "fashion_item";
+    public static final String OUTFIT_ITEM_CLICK_ID = "outfit_item_id";
+    public static final String OUTFIT_ITEM_CLICK_OBJECT = "outfit_item_object";
     public static final String SIGNINTYPE = "SIGNINTYPE";
     public static final String FULLNAME = "FULLNAME";
 
@@ -29,8 +30,8 @@ public class ConstantValue {
     public static final String SHARED_PREFERENCE_PASSWORD_VALUE = "UApw";
     public static final String SHARED_PREFERENCE_IS_GOOGLE_ACCOUNT = "UAga";
 
-
-
+    // ENCRYPT_KEY_VALUE
+    public static final String CIPHER_ENCRYPT_KEY_VALUE = "sharewardrobeapp";
 
 }
 

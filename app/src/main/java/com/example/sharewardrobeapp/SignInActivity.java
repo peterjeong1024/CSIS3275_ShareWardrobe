@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharewardrobeapp.interfaces.AES;
 import com.example.sharewardrobeapp.objects.UserAccount;
 import com.example.sharewardrobeapp.signin.SignInViewModel;
 import com.example.sharewardrobeapp.signin.UserInfoActivity;
@@ -44,6 +46,7 @@ public class SignInActivity extends BasementActivity {
     private EditText mPw;
     private Button mSignInBtn;
     private Button mSignUpBtn;
+    private TextView mSignUpText;
 
     private SignInViewModel mViewModel;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -59,10 +62,12 @@ public class SignInActivity extends BasementActivity {
         mSignInBtn = findViewById(R.id.btnLogin);
         mSignUpBtn = findViewById(R.id.btnSignUp);
         signBtnGoogle = findViewById(R.id.imgGoogle);
+        mSignUpText = findViewById(R.id.txtSignUp);
 
         mSignInBtn.setOnClickListener(btnClickListener);
         mSignUpBtn.setOnClickListener(btnClickListener);
         signBtnGoogle.setOnClickListener(btnClickListener);
+        mSignUpText.setOnClickListener(btnClickListener);
 
         mViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
@@ -86,6 +91,10 @@ public class SignInActivity extends BasementActivity {
                 // go to sign up activity
                 Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
                 startActivity(intent);
+            } else if (view.getId() == R.id.txtSignUp) {
+                // go to sign up activity
+                Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                startActivity(intent);
             } else if (view.getId() == R.id.imgGoogle) {
                 // check google account
                 GoogleSignInSetup();
@@ -94,15 +103,27 @@ public class SignInActivity extends BasementActivity {
     };
 
     private void signInAccount(String id, String pw) {
-        mViewModel.signInUAItemData(id, pw).observe(this, new Observer<UserAccount>() {
+        String encPw = "";
+
+        try {
+            encPw = AES.encByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, pw);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mViewModel.signInUAItemData(id, encPw).observe(this, new Observer<UserAccount>() {
             @Override
             public void onChanged(UserAccount userAccount) {
                 if (userAccount == null) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_cannot_find_id), Toast.LENGTH_LONG).show();
                 } else {
-                    UseLog.d(userAccount.toString());
+                    try {
+                        userAccount.setUserPW(AES.decByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, userAccount.getUserPW()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     setUserAccount(userAccount);
-                    UseLog.d(getUserAccount().toString());
                     getUserAccount().tryLogin(getApplicationContext());
                     setResult(Activity.RESULT_OK);
                     finish();
@@ -138,7 +159,18 @@ public class SignInActivity extends BasementActivity {
             String UserEmail = googleSignInAccount.getEmail();
             String UserName = googleSignInAccount.getDisplayName();
 
-            UserAccount ua = new UserAccount(UserID, UserPW, UserName, UserEmail, true);
+
+
+            String encPw = "";
+
+            try {
+                encPw = AES.encByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, UserPW);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            UserAccount ua = new UserAccount(UserID, encPw, UserName, UserEmail, true);
+
             mViewModel.addUserAccount(ua).observe(this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {

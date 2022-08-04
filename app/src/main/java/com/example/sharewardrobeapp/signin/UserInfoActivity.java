@@ -7,12 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sharewardrobeapp.BasementActivity;
 import com.example.sharewardrobeapp.R;
+import com.example.sharewardrobeapp.interfaces.AES;
 import com.example.sharewardrobeapp.objects.UserAccount;
+import com.example.sharewardrobeapp.util.ConstantValue;
 import com.example.sharewardrobeapp.util.UseLog;
 
 public class UserInfoActivity extends BasementActivity {
@@ -98,19 +101,32 @@ public class UserInfoActivity extends BasementActivity {
             return;
         }
         UserAccount ua = new UserAccount(newID, newPw, newName, newEmail, false);
-        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<UserAccount>() {
+        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(UserAccount userAccount) {
-                if (userAccount == null) {
-                    createAccount(ua);
-                } else {
+            public void onChanged(Boolean isExisted) {
+                if (isExisted) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_id_already_used), Toast.LENGTH_LONG).show();
+                } else {
+                    if (Boolean.FALSE.equals(mViewModel.getIsWorking().getValue())) {
+                        createAccount(ua);
+                    }
                 }
             }
         });
     }
 
     private void createAccount(UserAccount ua) {
+        UseLog.d("createAccount : " + ua.toString());
+        String encPw = "";
+
+        try {
+            encPw = AES.encByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, ua.getUserPW());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ua.setUserPW(encPw);
+
         mViewModel.addUserAccount(ua).observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -136,6 +152,17 @@ public class UserInfoActivity extends BasementActivity {
         }
 
         UserAccount ua = new UserAccount(getUserAccount().getUserID(), newPw, newName, newEmail, getUserAccount().getIsGoogleAccount());
+
+        String encPw = "";
+
+        try {
+            encPw = AES.encByKey(ConstantValue.CIPHER_ENCRYPT_KEY_VALUE, ua.getUserPW());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ua.setUserPW(encPw);
+
         mViewModel.updateUserAccount(ua).observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -161,13 +188,13 @@ public class UserInfoActivity extends BasementActivity {
         String newPw = mUserPwEdit.getText().toString();
 
         UserAccount ua = new UserAccount(newID, newPw);
-        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<UserAccount>() {
+        mViewModel.checkUA(ua.getUserID()).observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(UserAccount userAccount) {
-                if (userAccount == null) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_this_id_can_use), Toast.LENGTH_LONG).show();
-                } else {
+            public void onChanged(Boolean isExisted) {
+                if (isExisted) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_id_already_used), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_this_id_can_use), Toast.LENGTH_LONG).show();
                 }
             }
         });

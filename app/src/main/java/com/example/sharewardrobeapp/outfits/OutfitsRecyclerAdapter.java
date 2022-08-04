@@ -44,7 +44,11 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemTitle.setText(mOutfitsItemList.get(position).getOutfitCateName());
-        GlideApp.with(mContext).load(mOutfitsItemList.get(position).getOutfitImgBitmap()).into(holder.itemImage);
+        if (!mOutfitsItemList.get(position).getOutfitImg().equals("")) {
+            GlideApp.with(mContext).load(mOutfitsItemList.get(position).getOutfitImgBitmap()).into(holder.itemImage);
+        } else {
+            GlideApp.with(mContext).load(mContext.getResources().getDrawable(R.drawable.no_image)).into(holder.itemImage);
+        }
     }
 
     @Override
@@ -65,7 +69,7 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (mItemClickListener!= null) {
-                        mItemClickListener.onClickItem(position);
+                        mItemClickListener.onClickItem(position, mOutfitsItemList.get(position).getOutfitOwnerID());
                     }
                 }
             });
@@ -73,6 +77,6 @@ public class OutfitsRecyclerAdapter extends RecyclerView.Adapter<OutfitsRecycler
     }
 
     public interface OnItemClick {
-        void onClickItem(int position);
+        void onClickItem(int position, String userID);
     }
 }

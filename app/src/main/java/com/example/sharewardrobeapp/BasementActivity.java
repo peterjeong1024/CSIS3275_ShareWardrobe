@@ -66,14 +66,11 @@ public class BasementActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                UseLog.v("click back button in actionbar");
                 finish();
                 return true;
             case R.id.addItemMenu:
-                UseLog.v("addItemMenu");
                 return true;
             case R.id.action_log_out:
-                UseLog.v("Log out");
                 getUserAccount().tryLogout(getApplicationContext());
                 finish();
                 return true;

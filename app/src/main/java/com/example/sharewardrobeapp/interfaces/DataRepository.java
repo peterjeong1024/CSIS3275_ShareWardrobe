@@ -25,8 +25,10 @@ public class DataRepository {
 
     private MutableLiveData<ArrayList<OutfitItem>> OutfitListLiveData = new MutableLiveData<>();
     private MutableLiveData<OutfitItem> OutfitLiveData = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<OutfitItem>> OutfitAllItemsLiveData = new MutableLiveData<>();
 
     private MutableLiveData<UserAccount> UALiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> IsExisted = new MutableLiveData<>();
     private MutableLiveData<Boolean> IsSuccessSignIn = new MutableLiveData<>();
     private MutableLiveData<Boolean> IsSuccessUpdate = new MutableLiveData<>();
 
@@ -176,6 +178,22 @@ public class DataRepository {
         });
     }
 
+    public LiveData<ArrayList<OutfitItem>> getAllOutfitList() {
+        api.getAllOutfitItem().enqueue(new Callback<ArrayList<OutfitItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<OutfitItem>> call, Response<ArrayList<OutfitItem>> response) {
+                OutfitAllItemsLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<OutfitItem>> call, Throwable t) {
+                UseLog.d("Fail to get the OutfitItem list from server");
+                t.printStackTrace();
+            }
+        });
+        return OutfitAllItemsLiveData;
+    }
+
 
     /*
          -- /UserAccount/ API list
@@ -196,20 +214,25 @@ public class DataRepository {
         return UALiveData;
     }
 
-    public LiveData<UserAccount> checkUserAccount(String id) {
+    public LiveData<Boolean> checkUserAccount(String id) {
         api.getUserAccount(id).enqueue(new Callback<UserAccount>() {
             @Override
             public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
-                UALiveData.setValue(response.body());
+                if (response.body() == null) {
+                    IsExisted.postValue(false);
+                } else {
+                    IsExisted.postValue(true);
+                }
             }
 
             @Override
             public void onFailure(Call<UserAccount> call, Throwable t) {
                 UseLog.d("Fail to get the UserAccount from server");
                 t.printStackTrace();
+                IsExisted.postValue(false);
             }
         });
-        return UALiveData;
+        return IsExisted;
     }
 
     public MutableLiveData<Boolean> addUserAccount(UserAccount ua) {

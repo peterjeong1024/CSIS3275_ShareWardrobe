@@ -38,6 +38,9 @@
     <string name="input_item_brand">Input Item Brand</string>
     <string name="input_item_Location">Input Item Location</string>
 
+    <!-- OutfitItems activities text -->
+    <string name="recommended_outfits">Recommended Outfits</string>
+
     <!-- UserAccount activities text -->
     <string name="input_user_id">Input ID</string>
     <string name="input_user_pw">Input Password</string>
@@ -56,7 +59,7 @@
     <string name="toast_succeed_to_create_new_account">Succeed to create new account. Please login with new account.</string>
     <string name="toast_failed_to_create_new_account">Failed to create new account.</string>
     <string name="you_do_not_have_any_items">You don`t have any fashion items in your list.</string>
-    <string name="insert_data_correctly">Please Insert data correctly.</string>
+    <string name="insert_data_correctly">Please insert data correctly.</string>
     <string name="required_permissions_are_denied">Required permissions are denied.</string>
     <string name="choose_your_stylist">Choose Your Stylist</string>
 

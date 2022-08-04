@@ -15,7 +15,6 @@ public class CheckableItemLayout extends ConstraintLayout implements Checkable {
 
     public CheckableItemLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         mIsChecked = false;
     }
 

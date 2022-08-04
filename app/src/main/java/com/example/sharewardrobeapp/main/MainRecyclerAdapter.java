@@ -28,11 +28,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     };
 
     private int[] images = {
-            R.drawable.icons_plus,
-            R.drawable.icons_plus,
-            R.drawable.icons_plus,
-            R.drawable.icons_plus,
-            R.drawable.icons_plus
+            R.drawable.items_icon,
+            R.drawable.outfits_icon,
+            R.drawable.statistic_icon,
+            R.drawable.planner_icon,
+            R.drawable.consultation_icon
     };
 
     public void setOnMenuClickListener(OnMenuClickListener onMenuClickListener) {
