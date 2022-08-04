@@ -212,6 +212,18 @@ public class PlannerActivity extends BasementActivity implements PlannerMonthRec
                         String returnString = data.getExtras().getString(ConstantValue.PLANNER_CLICK_DAY);
                         monthSpinner.setSelection(Integer.parseInt(returnString.substring(4, 6)) - 1);
                         yearSpinner.setSelection(Integer.parseInt(returnString.substring(0, 4)) - START_YEAR_LIST_YEAR);
+
+                        // bring data from ViewModel object. data is brought automatically
+                        mPlannerViewModel.getUserPlanDataList(getUserAccount().getUserID()).observe(PlannerActivity.this, new Observer<ArrayList<UserPlanData>>() {
+                            @Override
+                            public void onChanged(ArrayList<UserPlanData> items) {
+                                // data(UserPlanData) is brought here  automatically and asynchronously
+                                mUserPlanDataItems = items;
+                                // displayScreen(items);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
                         updateCalendar();
                     }
                 }
