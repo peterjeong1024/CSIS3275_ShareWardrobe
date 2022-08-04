@@ -51,7 +51,7 @@ public class PlannerSelectItemActivity extends BasementActivity implements Plann
         Intent i = getIntent();
         String outfitItemIds = i.getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID);
         String fashionItemIds = i.getStringExtra(ConstantValue.FASHION_ITEM_CLICK_ID);
-        if (outfitItemIds != null && outfitItemIds.length() > 0) {
+        if (outfitItemIds != null) {
             type = ConstantValue.OUTFIT_ITEM_CLICK_ID;
             setTitle("Choose one outfit");
             ignoreIdString = outfitItemIds;
@@ -72,7 +72,7 @@ public class PlannerSelectItemActivity extends BasementActivity implements Plann
                     }
                 }
             });
-        } else if (fashionItemIds != null && fashionItemIds.length() > 0) {
+        } else if (fashionItemIds != null) {
             type = ConstantValue.FASHION_ITEM_CLICK_ID;
             setTitle("Choose one fashion item");
             ignoreIdString = fashionItemIds;

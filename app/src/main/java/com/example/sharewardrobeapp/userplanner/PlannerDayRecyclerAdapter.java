@@ -38,8 +38,8 @@ public class PlannerDayRecyclerAdapter extends RecyclerView.Adapter<PlannerDayRe
         UserPlanData plan = dayPlanItems.get(position);
         Bitmap planBitmap = dayBitmaps.get(plan.get_id());
 
-        int outfitCount = plan.getOutFitsSerialize().split("\\|").length;
-        int fashionItemCount = plan.getFItemsSerialize().split("\\|").length;
+        int outfitCount = ((plan.getOutFitsSerialize().length() == 0) ? 0 : plan.getOutFitsSerialize().split("\\|").length);
+        int fashionItemCount = ((plan.getFItemsSerialize().length() == 0) ? 0 : plan.getFItemsSerialize().split("\\|").length);
         StringBuilder planContent = new StringBuilder();
         String conjunction = "";
         if (outfitCount > 0) {

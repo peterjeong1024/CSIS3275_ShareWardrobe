@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,8 +25,10 @@ import com.example.sharewardrobeapp.fashionitems.FashionItemsViewModel;
 import com.example.sharewardrobeapp.objects.FashionItem;
 import com.example.sharewardrobeapp.objects.OutfitItem;
 import com.example.sharewardrobeapp.objects.UserPlanData;
+import com.example.sharewardrobeapp.outfits.OutfitDetailActivity;
 import com.example.sharewardrobeapp.outfits.OutfitsViewModel;
 import com.example.sharewardrobeapp.userplanner.PlannerDayActivity;
+import com.example.sharewardrobeapp.userplanner.PlannerDetailActivity;
 import com.example.sharewardrobeapp.userplanner.UserPlannerViewModel;
 import com.example.sharewardrobeapp.userplanner.PlannerMonthRecyclerAdapter;
 import com.example.sharewardrobeapp.util.ConstantValue;
@@ -260,9 +264,9 @@ public class PlannerActivity extends BasementActivity implements PlannerMonthRec
             UserPlanData plan = mUserPlanDataItems.get(i);
 
             // identify corresponding outfits if available
-            String[] outfitIDs = plan.getOutFitsSerialize().split("\\|");
-            if (outfitIDs.length > 0) {
+            if (plan.getOutFitsSerialize().length() > 0) {
                 // get image from 1st outfit
+                String[] outfitIDs = plan.getOutFitsSerialize().split("\\|");
                 dayBitmapKey.put(dayKey, "outfit_" + outfitIDs[0]);
                 mOutfitsViewModel.getOutfitItemData(outfitIDs[0]).observe(this, new Observer<OutfitItem>() {
                     @Override
@@ -284,8 +288,8 @@ public class PlannerActivity extends BasementActivity implements PlannerMonthRec
             }
 
             // identify corresponding fashion items if available
-            String[] fashionItemIDs = plan.getFItemsSerialize().split("\\|");
-            if (fashionItemIDs.length > 0) {
+            if (plan.getFItemsSerialize().length() > 0) {
+                String[] fashionItemIDs = plan.getFItemsSerialize().split("\\|");
                 // get image from 1st item
                 dayBitmapKey.put(dayKey, "item_" + fashionItemIDs[0]);
                 mFashionItemsViewModel.getFashionItemData(fashionItemIDs[0]).observe(this, new Observer<FashionItem>() {
@@ -311,4 +315,17 @@ public class PlannerActivity extends BasementActivity implements PlannerMonthRec
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addItemMenu:
+                startForResult.launch(new Intent(this, PlannerDetailActivity.class));
+                return true;
+            case R.id.settingMenu:
+                UseLog.v("settingMenu");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

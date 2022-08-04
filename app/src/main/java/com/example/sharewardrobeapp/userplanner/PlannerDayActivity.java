@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -111,7 +113,7 @@ public class PlannerDayActivity extends BasementActivity implements PlannerDayRe
         addPlanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: add a new plan
+                addNewPlan();
             }
         });
 
@@ -192,8 +194,8 @@ public class PlannerDayActivity extends BasementActivity implements PlannerDayRe
                 String bitmapKey = plan.get_id();
                 if (dayBitmaps.get(plan.get_id()) == null) {
                     // identify corresponding outfits if available
-                    String[] outfitIDs = plan.getOutFitsSerialize().split("\\|");
-                    if (outfitIDs.length > 0) {
+                    if (plan.getOutFitsSerialize().length() > 0) {
+                        String[] outfitIDs = plan.getOutFitsSerialize().split("\\|");
                         // get image from 1st outfit
                         mOutfitsViewModel.getOutfitItemData(outfitIDs[0]).observe(this, new Observer<OutfitItem>() {
                             @Override
@@ -216,8 +218,8 @@ public class PlannerDayActivity extends BasementActivity implements PlannerDayRe
                     }
 
                     // identify corresponding fashion items if available
-                    String[] fashionItemIDs = plan.getFItemsSerialize().split("\\|");
-                    if (fashionItemIDs.length > 0) {
+                    if (plan.getFItemsSerialize().length() > 0) {
+                        String[] fashionItemIDs = plan.getFItemsSerialize().split("\\|");
                         // get image from 1st item
                         mFashionItemsViewModel.getFashionItemData(fashionItemIDs[0]).observe(this, new Observer<FashionItem>() {
                             @Override
@@ -225,8 +227,12 @@ public class PlannerDayActivity extends BasementActivity implements PlannerDayRe
                                 // update this instead of because position cannot access from inner class like this
                                 int position = dayPlanItems.indexOf(plan);
 
-                                if (dayBitmaps.get(bitmapKey) != null) {
+                                if (dayBitmaps.get(bitmapKey) == null && fashionItem != null) {
                                     dayBitmaps.put(bitmapKey, fashionItem.getItemImgBitmap());
+                                    adapter.notifyItemChanged(position);
+                                }
+                                if (dayBitmaps.get(bitmapKey) != null && fashionItem == null) {
+                                    dayBitmaps.remove(bitmapKey);
                                     adapter.notifyItemChanged(position);
                                 }
                             }
@@ -247,5 +253,25 @@ public class PlannerDayActivity extends BasementActivity implements PlannerDayRe
 //        addPlanButton.setVisibility(position == 0 ? View.VISIBLE : View.INVISIBLE);
         // notify adapter
         adapter.notifyDataSetChanged();
+    }
+
+    private void addNewPlan() {
+        Intent i = new Intent(this, PlannerDetailActivity.class);
+        i.putExtra(ConstantValue.PLANNER_CLICK_DAY, (new SimpleDateFormat("yyyyMMdd")).format(planDay.getTimeInMillis()));
+        startForResult.launch(i);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addItemMenu:
+                addNewPlan();
+                return true;
+            case R.id.settingMenu:
+                UseLog.v("settingMenu");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

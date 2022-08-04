@@ -124,6 +124,12 @@ public class PlannerDetailActivity extends BasementActivity implements PlannerDe
             }
         });
         deleteButton = findViewById(R.id.event_delete_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         confirmButton = findViewById(R.id.event_confirm_button);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,8 +147,8 @@ public class PlannerDetailActivity extends BasementActivity implements PlannerDe
                     }
                     plan.setItemDescription(itemDescriptionInput.getText().toString());
                     plan.setWornDate(String.valueOf(wornDate.getTimeInMillis()));
-                    plan.setOutFitsSerialize(String.join("|", planOutfitItemIds));
-                    plan.setFItemsSerialize(String.join("|", planFashionItemIds));
+                    plan.setOutFitsSerialize((planOutfitItemIds.size() == 0) ? null : String.join("|", planOutfitItemIds));
+                    plan.setFItemsSerialize((planFashionItemIds.size() == 0) ? null : String.join("|", planFashionItemIds));
                     if (isAdd) {
                         // add to repository
                         mPlannerViewModel.addUserPlanDataItem(plan);
@@ -166,13 +172,17 @@ public class PlannerDetailActivity extends BasementActivity implements PlannerDe
                 if (planOutfitItemIds.size() != 0) {
                     planOutfitItemIds.clear();
                 }
-                planOutfitItemIds.addAll(new ArrayList<String>(Arrays.asList(plan.getOutFitsSerialize().split("\\|"))));
+                if (plan.getOutFitsSerialize().length() > 0) {
+                    planOutfitItemIds.addAll(new ArrayList<String>(Arrays.asList(plan.getOutFitsSerialize().split("\\|"))));
+                }
                 updatePlanOutfitItems();
 
                 if (planFashionItemIds.size() != 0) {
                     planFashionItemIds.clear();
                 }
-                planFashionItemIds.addAll(new ArrayList<String>(Arrays.asList(plan.getFItemsSerialize().split("\\|"))));
+                if (plan.getFItemsSerialize().length() > 0) {
+                    planFashionItemIds.addAll(new ArrayList<String>(Arrays.asList(plan.getFItemsSerialize().split("\\|"))));
+                }
                 updatePlanFashionItems();
 
                 enableEdit(false);
@@ -226,7 +236,7 @@ public class PlannerDetailActivity extends BasementActivity implements PlannerDe
 
         Intent i = getIntent();
         plan_id = i.getStringExtra(ConstantValue.PLANNER_DETAIL_ID);
-        enableEdit(i.getStringExtra(ConstantValue.PLANNER_DETAIL_MODE).compareTo(ConstantValue.STATE_EDITABLE) == 0);
+        enableEdit(plan_id == null || i.getStringExtra(ConstantValue.PLANNER_DETAIL_MODE).compareTo(ConstantValue.STATE_EDITABLE) == 0);
 
         mOutfitsViewModel.getOutfitItemListLiveData(getUserAccount().getUserID()).observe(this, new Observer<ArrayList<OutfitItem>>() {
             @Override
@@ -244,25 +254,45 @@ public class PlannerDetailActivity extends BasementActivity implements PlannerDe
             }
         });
 
-        mPlannerViewModel.getUserPlanData(plan_id).observe(this, new Observer<UserPlanData>() {
-            @Override
-            public void onChanged(UserPlanData userPlanData) {
-                if (planOutfitItemIds.size() != 0) {
-                    planOutfitItemIds.clear();
+        if (plan_id == null) {
+            String yyyymmdd = i.getStringExtra(ConstantValue.PLANNER_CLICK_DAY);
+            if (yyyymmdd != null) {
+                try {
+                    if (wornDate == null) {
+                        wornDate = Calendar.getInstance();
+                    }
+                    wornDate.setTimeInMillis((new SimpleDateFormat("yyyyMMdd")).parse(yyyymmdd).getTime());
+                    wornDateInput.setText(yyyymmdd.substring(0, 4) + "-" + yyyymmdd.substring(4, 6) + "-" + yyyymmdd.substring(6));
                 }
-                planOutfitItemIds.addAll(new ArrayList<String>(Arrays.asList(userPlanData.getOutFitsSerialize().split("\\|"))));
-
-                if (planFashionItemIds.size() != 0) {
-                    planFashionItemIds.clear();
+                catch (ParseException e) {
+                    UseLog.d("yyyymmdd format incorrect and is ignored");
                 }
-                planFashionItemIds.addAll(new ArrayList<String>(Arrays.asList(userPlanData.getFItemsSerialize().split("\\|"))));
-                plan = userPlanData;
-                updatePlanOutfitItems();
-                updatePlanFashionItems();
-
-                updateContent();
             }
-        });
+        } else {
+            mPlannerViewModel.getUserPlanData(plan_id).observe(this, new Observer<UserPlanData>() {
+                @Override
+                public void onChanged(UserPlanData userPlanData) {
+                    if (planOutfitItemIds.size() != 0) {
+                        planOutfitItemIds.clear();
+                    }
+                    if (userPlanData.getOutFitsSerialize().length() != 0) {
+                        planOutfitItemIds.addAll(new ArrayList<String>(Arrays.asList(userPlanData.getOutFitsSerialize().split("\\|"))));
+                    }
+
+                    if (planFashionItemIds.size() != 0) {
+                        planFashionItemIds.clear();
+                    }
+                    if (userPlanData.getFItemsSerialize().length() != 0) {
+                        planFashionItemIds.addAll(new ArrayList<String>(Arrays.asList(userPlanData.getFItemsSerialize().split("\\|"))));
+                    }
+                    plan = userPlanData;
+                    updatePlanOutfitItems();
+                    updatePlanFashionItems();
+
+                    updateContent();
+                }
+            });
+        }
     }
 
     @Override
