@@ -84,13 +84,13 @@ public class OutfitsActivity extends BasementActivity implements OutfitsRecycler
         Intent i;
         if (id.equals(userID)) {
             i = new Intent(this, OutfitDetailActivity.class);
-//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mUserOutfitItemList.get(position).get_id());
-            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mUserOutfitItemList.get(position));
+            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mUserOutfitItemList.get(position).get_id());
+//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mUserOutfitItemList.get(position));
             UseLog.d(mUserOutfitItemList.get(position).toString());
         } else {
             i = new Intent(this, OutfitRecommendDetailActivity.class);
-//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mRecommendOutfitItemList.get(position).get_id());
-            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mRecommendOutfitItemList.get(position));
+            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID, mRecommendOutfitItemList.get(position).get_id());
+//            i.putExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT, mRecommendOutfitItemList.get(position));
         }
         startActivity(i);
     }

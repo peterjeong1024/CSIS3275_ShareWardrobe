@@ -47,7 +47,7 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
 
     private OutfitItem mOutfitItem;
     private ArrayList<FashionItem> mCurrentItemList;
-
+    private String selectedItemID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +66,15 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
 
         mViewModel = new ViewModelProvider(this).get(OutfitsViewModel.class);
 
-        if (getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT) != null) {
-            mOutfitItem = getIntent().getParcelableExtra(ConstantValue.OUTFIT_ITEM_CLICK_OBJECT);
-            drawScreenData();
+        if (getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID) != null) {
+            selectedItemID = getIntent().getStringExtra(ConstantValue.OUTFIT_ITEM_CLICK_ID);
+            mViewModel.getOutfitItemData(selectedItemID).observe(this, new Observer<OutfitItem>() {
+                @Override
+                public void onChanged(OutfitItem outfitItem) {
+                    mOutfitItem = outfitItem;
+                    drawScreenData();
+                }
+            });
         }
     }
 
@@ -102,7 +108,6 @@ public class OutfitRecommendDetailActivity extends BasementActivity {
     private void drawListview() {
         mCurrentItemListViewAdapter.reDrawList(mCurrentItemList);
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
