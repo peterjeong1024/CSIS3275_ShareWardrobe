@@ -24,14 +24,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".stats.Brand_Stats"
+            android:exported="false" />
+        <activity
+            android:name=".stats.StatsDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".consultations.ConsultationsDetailsActivity"
             android:exported="false"
-            android:parentActivityName=".ConsultActivity"/>
+            android:parentActivityName=".ConsultActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -75,8 +82,7 @@
             android:name=".FashionItemsActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".MainActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
