@@ -275,8 +275,8 @@ public class DataRepository {
     /*
             -- /UserPlanData/ API list
      */
-    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList() {
-        api.getUserPlanDataList().enqueue(new Callback<ArrayList<UserPlanData>>() {
+    public LiveData<ArrayList<UserPlanData>> getUserPlanDataList(String userID) {
+        api.getUserPlanDataList(userID).enqueue(new Callback<ArrayList<UserPlanData>>() {
             @Override
             public void onResponse(Call<ArrayList<UserPlanData>> call, Response<ArrayList<UserPlanData>> response) {
                 UserPlanDataListLiveData.setValue(response.body());
