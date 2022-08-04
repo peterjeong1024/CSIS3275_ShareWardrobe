@@ -3,9 +3,16 @@ package com.example.sharewardrobeapp;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.sharewardrobeapp.fashionitems.FashionItemDetailActivity;
 import com.example.sharewardrobeapp.objects.FashionItem;
+import com.example.sharewardrobeapp.stats.Brand_Stats;
+import com.example.sharewardrobeapp.stats.StatsDetailsActivity;
 import com.example.sharewardrobeapp.stats.StatsViewModel;
 
 import java.util.ArrayList;
@@ -32,11 +39,37 @@ public class StatsActivity extends BasementActivity {
                 displayScreen(fashionItems);
             }
         });
+
+        Button btnColorStats = findViewById(R.id.btn_ColorStats);
+
+        btnColorStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity((new Intent(v.getContext(), StatsDetailsActivity.class)));
+            }
+        });
+
+        Button btnBrandStats = findViewById(R.id.btn_BrandStats);
+
+        btnBrandStats.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity((new Intent(v.getContext(), Brand_Stats.class)));
+            }
+        });
     }
 
     private void displayScreen(ArrayList<FashionItem> fashionItems) {
         // drawing code is here
 
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+
+        return true;
     }
 
 
